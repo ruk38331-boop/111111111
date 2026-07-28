@@ -355,7 +355,7 @@
         </div>
     </section>
 
-<!-- 9. قسم إنشاء الحساب مع ربط Gmail لإرسال OTP حقيقي -->
+<!-- 9. قسم إنشاء الحساب مع ربط Gmail وإرسال OTP حقيقي -->
 <section id="signup" class="py-24 bg-gray-50 border-t border-b border-gray-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
@@ -426,18 +426,19 @@
     </div>
 </section>
 
-<!-- استدعاء مكتبة EmailJS لإرسال الإيميلات -->
+<!-- استدعاء مكتبة EmailJS وجافاسكريبت الإرسال -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script type="text/javascript">
     (function() {
-        // ضع هنا Public Key الخاص بك من موقع EmailJS
-        emailjs.init("YOUR_PUBLIC_KEY");
+        emailjs.init("xv9roFIxk0IY5tE_7");
     })();
 
     let generatedOtp = "";
 
     function sendRealOtpToGmail() {
         const email = document.getElementById('user-email').value;
+        const name = document.getElementById('fullname').value || "مستخدم";
+        
         if (!email) {
             alert("الرجاء إدخال البريد الإلكتروني أولاً!");
             return;
@@ -449,17 +450,17 @@
         const btn = document.getElementById('otp-btn');
         btn.textContent = "جاري الإرسال...";
 
-        // إرسال الإيميل عبر EmailJS ربطاً بـ Gmail
-        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        // إرسال الإيميل عبر EmailJS مع تمرير المتغيرات المطلوبة للقالب
+        emailjs.send("service_2zk81aq", "YOUR_TEMPLATE_ID", {
             to_email: email,
+            name: name,
             otp_code: generatedOtp
         }).then(function(response) {
             alert("تم إرسال رمز التحقق بنجاح إلى بريدك الإلكتروني: " + email);
             btn.textContent = "تم الإرسال ✓";
         }, function(error) {
-            // حل بديل تجريبي في حال لم تضبط مفاتيح EmailJS بعد لتتمكن من التجربة فوراً
-            alert("تم محاكاة إرسال الرمز لبريدك. رمز التحقق التجريبي الخاص بك هو: " + generatedOtp);
-            btn.textContent = "أُرسل التجريبي";
+            alert("فشل الإرسال. تأكد من وضع Template ID الصحيح في الكود.");
+            btn.textContent = "إرسال الرمز للبريد";
         });
     }
 
