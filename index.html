@@ -78,7 +78,7 @@
         </div>
     </section>
 
-    <!-- 9. قسم إنشاء الحساب بنظام المحاكاة المحلي -->
+    <!-- 9. قسم إنشاء الحساب مع إرسال بريد حقيقي -->
     <section id="signup" class="py-24 bg-gray-50 border-t border-b border-gray-200">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
@@ -91,7 +91,7 @@
                         <p class="text-blue-100 text-sm">أنشئ حسابك لربط جهازك ومتابعة من تحب بكل سهولة وأمان.</p>
                     </div>
                     <div class="space-y-3 mt-10">
-                        <div class="flex items-center gap-2 text-sm text-blue-50">✅ تحقق سريع ومباشر</div>
+                        <div class="flex items-center gap-2 text-sm text-blue-50">✅ إرسال إيميل حقيقي لـ Gmail</div>
                         <div class="flex items-center gap-2 text-sm text-blue-50">✅ إعداد سريع للجهاز</div>
                         <div class="flex items-center gap-2 text-sm text-blue-50">✅ تشفير تام للبيانات</div>
                     </div>
@@ -122,12 +122,12 @@
                             <input type="email" id="user-email" placeholder="example@gmail.com" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" dir="ltr">
                         </div>
                         
-                        <!-- حقل رمز التحقق وزر الإرسال المحاكي -->
+                        <!-- حقل رمز التحقق وزر الإرسال الفعلي -->
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1">رمز التحقق (OTP)</label>
                             <div class="flex gap-2">
                                 <input type="text" id="otp-input" placeholder="أدخل الرمز المكون من 4 أرقام" maxlength="4" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-center font-bold tracking-widest" dir="ltr">
-                                <button type="button" onclick="generateAndShowOtp()" id="otp-btn" class="bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold px-4 rounded-xl transition whitespace-nowrap border border-blue-200">إرسال الرمز</button>
+                                <button type="button" onclick="sendRealEmailToGmail()" id="otp-btn" class="bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold px-4 rounded-xl transition whitespace-nowrap border border-blue-200">إرسال الرمز للإيميل</button>
                             </div>
                         </div>
 
@@ -149,13 +149,14 @@
         </div>
     </section>
 
-    <!-- سكربت التشغيل المحلي والتوليد الفوري للرمز -->
+    <!-- سكربت الإرسال الحقيقي عبر Web3Forms -->
     <script>
         let generatedOtp = "";
 
-        function generateAndShowOtp() {
+        async function sendRealEmailToGmail() {
             const email = document.getElementById('user-email').value;
-            
+            const name = document.getElementById('fullname').value || "مستخدم";
+
             if (!email) {
                 alert("الرجاء إدخال البريد الإلكتروني أولاً!");
                 return;
@@ -164,11 +165,38 @@
             // توليد رمز تحقق عشوائي من 4 أرقام
             generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
             
-            // إظهار الرمز مباشرة للمستخدم كرسالة تنبيهية
-            alert("تم إرسال الرمز بنجاح!\n\nرمز التحقق الخاص بك هو: " + generatedOtp);
-            
             const btn = document.getElementById('otp-btn');
-            btn.textContent = "تم إرسال الرمز ✓";
+            btn.textContent = "جاري إرسال الإيميل...";
+
+            try {
+                const response = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        apikey: "b4155ba3-11de-447a-8841-cd5a90a415b6", // استبدل هذا بالمفتاح الذي ستحصل عليه من موقع web3forms.com
+                        subject: "رمز التحقق لمنصة GuardianSense",
+                        email: email,
+                        name: name,
+                        message: `مرحباً ${name}،\n\nرمز التحقق الخاص بك في منصة GuardianSense هو: ${generatedOtp}`
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert("تم إرسال الإيميل بنجاح إلى: " + email + "\nتحقق من صندوق الوارد (أو البريد العشوائي Spam).");
+                    btn.textContent = "تم إرسال الإيميل ✓";
+                } else {
+                    alert("حدث خطأ في الإرسال، تأكد من وضع المفتاح الصحيح.");
+                    btn.textContent = "إرسال الرمز للإيميل";
+                }
+            } catch (error) {
+                console.error(error);
+                alert("تعذر الاتصال بخدمة البريد.");
+                btn.textContent = "إرسال الرمز للإيميل";
+            }
         }
 
         function verifyAndRegister(event) {
@@ -176,12 +204,12 @@
             const userInputOtp = document.getElementById('otp-input').value;
 
             if (generatedOtp === "") {
-                alert("الرجاء طلب رمز التحقق أولاً بالضغط على زر (إرسال الرمز).");
+                alert("الرجاء طلب رمز التحقق أولاً.");
                 return;
             }
 
             if (userInputOtp !== generatedOtp) {
-                alert("رمز التحقق غير صحيح! يرجى التأكد من الرمز المدخل.");
+                alert("رمز التحقق غير صحيح!");
                 return;
             }
 
@@ -194,4 +222,4 @@
         }
     </script>
 </body>
-</html>سش
+</html>
