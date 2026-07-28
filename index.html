@@ -355,7 +355,7 @@
         </div>
     </section>
 
-   <!-- 9. قسم إنشاء الحساب المحدث مع رمز التحقق -->
+<!-- 9. قسم إنشاء الحساب مع ربط Gmail لإرسال OTP حقيقي -->
 <section id="signup" class="py-24 bg-gray-50 border-t border-b border-gray-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
@@ -368,18 +368,18 @@
                     <p class="text-blue-100 text-sm">أنشئ حسابك لربط جهازك ومتابعة من تحب بكل سهولة وأمان.</p>
                 </div>
                 <div class="space-y-3 mt-10">
+                    <div class="flex items-center gap-2 text-sm text-blue-50">✅ إرسال رمز تحقق لـ Gmail</div>
                     <div class="flex items-center gap-2 text-sm text-blue-50">✅ إعداد سريع للجهاز</div>
-                    <div class="flex items-center gap-2 text-sm text-blue-50">✅ دعوة أفراد العائلة</div>
                     <div class="flex items-center gap-2 text-sm text-blue-50">✅ تشفير تام للبيانات</div>
                 </div>
                 <div class="text-xs text-blue-200 mt-10">GuardianSense © 2026</div>
             </div>
 
-            <!-- نموذج التسجيل مع رمز التحقق -->
+            <!-- نموذج التسجيل -->
             <div class="lg:col-span-7 p-8 sm:p-12 text-right">
                 <h3 class="text-2xl font-extrabold text-gray-900 mb-6">إنشاء حساب جديد</h3>
                 
-                <form id="signup-form" class="space-y-4" onsubmit="handleSignup(event)">
+                <form id="signup-form" class="space-y-4" onsubmit="verifyAndRegister(event)">
                     <div class="grid grid-cols-2 gap-3 mb-4">
                         <label class="cursor-pointer">
                             <input type="radio" name="acc" class="peer sr-only" checked>
@@ -395,16 +395,16 @@
                         <input type="text" id="fullname" placeholder="أحمد محمد" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">البريد الإلكتروني أو الجوال</label>
-                        <input type="text" id="email" placeholder="example@mail.com" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" dir="ltr">
+                        <label class="block text-xs font-bold text-gray-700 mb-1">البريد الإلكتروني (Gmail)</label>
+                        <input type="email" id="user-email" placeholder="example@gmail.com" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" dir="ltr">
                     </div>
                     
-                    <!-- حقل رمز التحقق -->
+                    <!-- حقل رمز التحقق وزر الإرسال -->
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">رمز التحقق (OTP)</label>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">رمز التحقق (OTP المرسل لبريدك)</label>
                         <div class="flex gap-2">
-                            <input type="text" id="otp-code" placeholder="1234" maxlength="4" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-center font-bold tracking-widest" dir="ltr">
-                            <button type="button" onclick="sendOtp()" class="bg-gray-100 hover:bg-gray-200 text-blue-600 text-xs font-bold px-4 rounded-xl transition whitespace-nowrap">إرسال الرمز</button>
+                            <input type="text" id="otp-input" placeholder="أدخل الرمز المكون من 4 أرقام" maxlength="4" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-center font-bold tracking-widest" dir="ltr">
+                            <button type="button" onclick="sendRealOtpToGmail()" id="otp-btn" class="bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold px-4 rounded-xl transition whitespace-nowrap border border-blue-200">إرسال الرمز للبريد</button>
                         </div>
                     </div>
 
@@ -416,9 +416,9 @@
                     <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition mt-2">إنشاء الحساب</button>
                 </form>
 
-                <!-- رسالة النجاح الوهمية -->
+                <!-- رسالة النجاح -->
                 <div id="success-message" class="hidden mt-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-center font-bold text-sm">
-                    تم إنشاء الحساب بنجاح! جاري تحويلك... 🎉
+                    تم التحقق وإنشاء الحساب بنجاح! جاري تحويلك... 🎉
                 </div>
             </div>
 
@@ -426,18 +426,58 @@
     </div>
 </section>
 
-<script>
-    function sendOtp() {
-        alert("تم إرسال رمز التحقق التجريبي (استخدم أي 4 أرقام مثل 1234)");
+<!-- استدعاء مكتبة EmailJS لإرسال الإيميلات -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+    (function() {
+        // ضع هنا Public Key الخاص بك من موقع EmailJS
+        emailjs.init("YOUR_PUBLIC_KEY");
+    })();
+
+    let generatedOtp = "";
+
+    function sendRealOtpToGmail() {
+        const email = document.getElementById('user-email').value;
+        if (!email) {
+            alert("الرجاء إدخال البريد الإلكتروني أولاً!");
+            return;
+        }
+
+        // توليد رمز تحقق عشوائي من 4 أرقام
+        generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+        
+        const btn = document.getElementById('otp-btn');
+        btn.textContent = "جاري الإرسال...";
+
+        // إرسال الإيميل عبر EmailJS ربطاً بـ Gmail
+        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+            to_email: email,
+            otp_code: generatedOtp
+        }).then(function(response) {
+            alert("تم إرسال رمز التحقق بنجاح إلى بريدك الإلكتروني: " + email);
+            btn.textContent = "تم الإرسال ✓";
+        }, function(error) {
+            // حل بديل تجريبي في حال لم تضبط مفاتيح EmailJS بعد لتتمكن من التجربة فوراً
+            alert("تم محاكاة إرسال الرمز لبريدك. رمز التحقق التجريبي الخاص بك هو: " + generatedOtp);
+            btn.textContent = "أُرسل التجريبي";
+        });
     }
 
-    function handleSignup(event) {
+    function verifyAndRegister(event) {
         event.preventDefault();
+        const userInputOtp = document.getElementById('otp-input').value;
+
+        if (userInputOtp !== generatedOtp && generatedOtp !== "") {
+            alert("رمز التحقق غير صحيح! تأكد من البريد أو أعد إرسال الرمز.");
+            return;
+        }
+
         const successBox = document.getElementById('success-message');
         successBox.classList.remove('hidden');
+        
         setTimeout(() => {
-            alert("تم تسجيل الدخول بنجاح إلى لوحة التحكم الخاصة بـ GuardianSense");
-        }, 1000);
+            alert("مرحباً بك في GuardianSense، تم تسجيل دخولك بنجاح.");
+        }, 1200);
     }
 </script>
 
