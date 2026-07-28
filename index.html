@@ -4,19 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- الوسوم الأساسية للـ SEO -->
     <title>GuardianSense - AI Safety System for Elderly Care</title>
     <meta name="description" content="نظام ذكاء اصطناعي ذكي متكامل لمراقبة سلامة كبار السن داخل المنزل دون كاميرات مع الحفاظ على الخصوصية التامة.">
-    <meta name="keywords" content="كبار السن, الذكاء الاصطناعي, مراقبة السلامة, IoT, رعاية المسنين, التكنولوجيا الطبية">
-    <meta name="author" content="GuardianSense Team">
-
-    <!-- وسوم المعاينة للشخصيات والشبكات الاجتماعية (Open Graph & Twitter Cards) -->
-    <meta property="og:title" content="GuardianSense - نظام حماية ورعاية كبار السن بالذكاء الاصطناعي">
-    <meta property="og:description" content="ذكاء اصطناعي يفهم الروتين قبل أن يطلق الإنذار. حماية متكاملة بدون كاميرات وبخصوصية 100%.">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630.png?text=GuardianSense+AI">
-    <meta property="og:url" content="https://guardiansense.com">
-    <meta property="og:type" content="website">
-
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Cairo Font -->
@@ -25,255 +15,436 @@
     <style>
         body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
         .hero-bg { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); }
-        .component-card, .tech-card { transition: all 0.3s ease; }
-        .component-card:hover, .tech-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); border-color: #3b82f6; }
         .whatsapp-bounce { animation: pulse-green 2s infinite; }
         @keyframes pulse-green {
             0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); }
             100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
         }
+        .step-card { transition: all 0.3s ease; }
+        .step-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.2); }
     </style>
 </head>
 <body class="bg-white text-gray-800 antialiased relative">
 
-    <!-- زر واتساب التفاعلي العائم -->
-    <a href="https://wa.me/966500000000?text=مرحباً،%20أرغب%20في%20الاستفسار%20عن%20نظام%20GuardianSense" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 left-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl flex items-center justify-center hover:bg-green-600 transition duration-300 whatsapp-bounce" title="تحدث معنا عبر واتساب">
-        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
-            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-        </svg>
+    <!-- زر واتساب -->
+    <a href="https://wa.me/966500000000" target="_blank" class="fixed bottom-6 left-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl flex items-center justify-center hover:bg-green-600 transition duration-300 whatsapp-bounce">
+        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
     </a>
 
-    <!-- شريط التنقل المحسّن مع قوائم منسدلة (Navbar) -->
-    <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b border-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- الشعار -->
                 <div class="flex-shrink-0">
-                    <a href="#home" class="font-extrabold text-2xl text-blue-600 tracking-tight flex items-center gap-2">
-                        <span>GuardianSense</span>
-                    </a>
+                    <a href="#home" class="font-extrabold text-2xl text-blue-600 tracking-tight flex items-center gap-2">GuardianSense</a>
                 </div>
-
-                <!-- قوائم التنقل المنظمة لشاشات الكمبيوتر -->
+                <!-- قوائم الكمبيوتر -->
                 <div class="hidden lg:flex items-center space-x-6 space-x-reverse text-sm font-bold text-gray-700">
                     <a href="#home" class="hover:text-blue-600 transition px-2 py-1">الرئيسية</a>
-
-                    <!-- قائمة منسدلة 1: عن النظام -->
+                    
                     <div class="relative group py-4">
                         <button class="hover:text-blue-600 transition flex items-center gap-1 focus:outline-none">
-                            عن النظام
-                            <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            عن النظام <svg class="w-4 h-4 group-hover:rotate-180 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <div class="absolute right-0 top-full hidden group-hover:block bg-white shadow-xl rounded-2xl p-2 w-52 border border-gray-100 transition-all duration-200">
-                            <a href="#why" class="block px-4 py-2.5 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-xl text-sm transition">لماذا GuardianSense</a>
-                            <a href="#problem-solution" class="block px-4 py-2.5 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-xl text-sm transition">المشكلة والحل</a>
-                            <a href="#team" class="block px-4 py-2.5 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-xl text-sm transition">فريق العمل</a>
+                        <div class="absolute right-0 top-full hidden group-hover:block bg-white shadow-xl rounded-2xl p-2 w-52 border border-gray-100">
+                            <a href="#why" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">لماذا نحن</a>
+                            <a href="#problem-solution" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">المشكلة والحل</a>
                         </div>
                     </div>
 
-                    <!-- قائمة منسدلة 2: المنتج والحلول -->
                     <div class="relative group py-4">
                         <button class="hover:text-blue-600 transition flex items-center gap-1 focus:outline-none">
-                            المنتج والتطبيق
-                            <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            المنتج والتطبيق <svg class="w-4 h-4 group-hover:rotate-180 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <div class="absolute right-0 top-full hidden group-hover:block bg-white shadow-xl rounded-2xl p-2 w-56 border border-gray-100 transition-all duration-200">
-                            <a href="#device" class="block px-4 py-2.5 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-xl text-sm transition">مكونات الجهاز (13 طبقة)</a>
-                            <a href="#demo" class="block px-4 py-2.5 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-xl text-sm transition">العرض التوضيحي (فيديو)</a>
-                            <a href="#application" class="block px-4 py-2.5 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-xl text-sm transition">تطبيق الجوال والمميزات</a>
-                            <a href="#scenarios" class="block px-4 py-2.5 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-xl text-sm transition">سيناريوهات حية</a>
+                        <div class="absolute right-0 top-full hidden group-hover:block bg-white shadow-xl rounded-2xl p-2 w-56 border border-gray-100">
+                            <a href="#device" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">مكونات الجهاز</a>
+                            <a href="#demo" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">العرض التوضيحي</a>
+                            <a href="#application" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">تطبيق الجوال</a>
+                            <a href="#scenarios" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">سيناريوهات حية</a>
                         </div>
                     </div>
 
-                    <!-- قائمة منسدلة 3: التكنولوجيا والقرار -->
                     <div class="relative group py-4">
                         <button class="hover:text-blue-600 transition flex items-center gap-1 focus:outline-none">
-                            التكنولوجيا والأبحاث
-                            <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            التكنولوجيا <svg class="w-4 h-4 group-hover:rotate-180 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <div class="absolute right-0 top-full hidden group-hover:block bg-white shadow-xl rounded-2xl p-2 w-56 border border-gray-100 transition-all duration-200">
-                            <a href="#technology" class="block px-4 py-2.5 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-xl text-sm transition">التقنيات والخصوصية</a>
-                            <a href="#framework" class="block px-4 py-2.5 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-xl text-sm transition">إطار اتخاذ القرار (8 مراحل)</a>
-                            <a href="#research" class="block px-4 py-2.5 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-xl text-sm transition">الأبحاث والأسس العلمية</a>
+                        <div class="absolute right-0 top-full hidden group-hover:block bg-white shadow-xl rounded-2xl p-2 w-56 border border-gray-100">
+                            <a href="#technology" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">التقنيات المستخدمة</a>
+                            <a href="#framework" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">إطار اتخاذ القرار</a>
                         </div>
                     </div>
 
-                    <a href="#faq" class="hover:text-blue-600 transition px-2 py-1">الأسئلة الشائعة</a>
-                    <a href="#contact" class="bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition shadow-md shadow-blue-500/20">تواصل معنا</a>
+                    <a href="#team" class="hover:text-blue-600 transition px-2 py-1">الفريق</a>
+                    <a href="#contact" class="bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition">تواصل معنا</a>
                 </div>
 
-                <!-- زر القائمة للجوال -->
+                <!-- زر الموبايل -->
                 <div class="flex lg:hidden">
-                    <button id="mobile-menu-btn" type="button" class="text-gray-700 hover:text-blue-600 p-2 rounded-md" aria-label="فتح القائمة">
-                        <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                        </svg>
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-blue-600 p-2">
+                        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
                 </div>
             </div>
         </div>
-
-        <!-- القائمة المنسدلة للجوّال -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-gray-100 px-6 pt-3 pb-6 space-y-3 text-right">
-            <a href="#home" class="mobile-link block py-2 font-bold text-gray-800 border-b border-gray-50">الرئيسية</a>
-            <a href="#why" class="mobile-link block py-2 text-gray-600">لماذا GuardianSense</a>
-            <a href="#device" class="mobile-link block py-2 text-gray-600">الجهاز والمكونات</a>
-            <a href="#demo" class="mobile-link block py-2 text-gray-600">العرض التوضيحي</a>
-            <a href="#application" class="mobile-link block py-2 text-gray-600">التطبيق الذكي</a>
-            <a href="#scenarios" class="mobile-link block py-2 text-gray-600">سيناريوهات الاستخدام</a>
-            <a href="#technology" class="mobile-link block py-2 text-gray-600">التكنولوجيا والخصوصية</a>
-            <a href="#framework" class="mobile-link block py-2 text-gray-600">إطار اتخاذ القرار</a>
-            <a href="#faq" class="mobile-link block py-2 text-gray-600">الأسئلة الشائعة</a>
-            <a href="#team" class="mobile-link block py-2 text-gray-600">فريق العمل</a>
-            <a href="#contact" class="mobile-link block py-3 text-center bg-blue-600 text-white rounded-xl font-bold mt-2">اتصل بنا</a>
+        
+        <!-- قائمة الموبايل -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white px-6 pb-6 space-y-2 text-right border-b border-gray-100 shadow-lg absolute w-full">
+            <a href="#home" class="block py-2 font-bold border-b border-gray-50">الرئيسية</a>
+            <a href="#problem-solution" class="block py-2 text-gray-600">المشكلة والحل</a>
+            <a href="#device" class="block py-2 text-gray-600">الجهاز</a>
+            <a href="#application" class="block py-2 text-gray-600">التطبيق</a>
+            <a href="#technology" class="block py-2 text-gray-600">التكنولوجيا</a>
+            <a href="#contact" class="block py-2 mt-2 bg-blue-600 text-white text-center rounded-lg">اتصل بنا</a>
         </div>
     </nav>
 
-    <!-- 1. Hero Section مع عنصر الجهاز الذكي المصمم بـ CSS/SVG -->
-    <section id="home" class="hero-bg py-20 lg:py-28 overflow-hidden border-b border-gray-100">
+    <!-- 1. Hero Section -->
+    <section id="home" class="hero-bg py-20 lg:py-28 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center">
             <div class="lg:w-1/2 text-right z-10">
                 <h1 class="text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4">GuardianSense</h1>
                 <h2 class="text-2xl lg:text-3xl text-blue-600 font-bold mb-6">ذكاء اصطناعي يفهم الروتين... قبل أن يطلق الإنذار.</h2>
                 <p class="text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed max-w-xl">
-                    نظام ذكي متكامل صُمم لمساعدة كبار السن داخل المنزل، ويعتمد على دمج المستشعرات والذكاء الاصطناعي والتعلم الشخصي للروتين لتقييم الحاجة الفعلية للمساعدة، مع الحفاظ الكامل على الخصوصية ودون استخدام أي كاميرات.
+                    نظام ذكي متكامل صُمم لمساعدة كبار السن داخل المنزل، يعتمد على دمج المستشعرات والذكاء الاصطناعي لتقييم الحاجة الفعلية للمساعدة، مع الحفاظ الكامل على الخصوصية.
                 </p>
                 <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
                     <a href="#device" class="bg-blue-600 text-white text-center px-8 py-4 rounded-full font-bold shadow-lg hover:bg-blue-700 transition">اكتشف النظام</a>
                     <a href="#demo" class="bg-white text-blue-600 text-center border-2 border-blue-600 px-8 py-4 rounded-full font-bold hover:bg-blue-50 transition">شاهد كيف يعمل</a>
                 </div>
             </div>
-
-            <!-- مجسم تفاعلي للجهاز (CSS/SVG Mockup) بديل متكامل للصور المكسورة -->
-            <div class="lg:w-1/2 mt-16 lg:mt-0 flex justify-center relative">
-                <div class="w-80 h-80 lg:w-96 lg:h-96 bg-gradient-to-br from-white to-blue-50 rounded-[3.5rem] shadow-2xl flex flex-col items-center justify-center border-2 border-blue-100/80 relative z-10 p-8 text-center group hover:scale-105 transition duration-500">
-                    <!-- حلقة الإضاءة والحالة -->
-                    <div class="w-32 h-32 bg-blue-600/10 rounded-full flex items-center justify-center mb-6 relative">
-                        <div class="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center text-white text-5xl shadow-xl shadow-blue-500/30">
-                            🛡️
-                        </div>
+            <div class="lg:w-1/2 mt-16 lg:mt-0 flex justify-center">
+                <div class="w-80 h-80 lg:w-96 lg:h-96 bg-white rounded-[3.5rem] shadow-2xl flex flex-col items-center justify-center border-2 border-blue-100 relative group hover:scale-105 transition duration-500">
+                    <div class="w-32 h-32 bg-blue-50 rounded-full flex items-center justify-center mb-6 relative">
+                        <div class="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center text-white text-5xl shadow-xl shadow-blue-500/30">🛡️</div>
                         <span class="absolute top-2 right-2 w-5 h-5 bg-green-500 rounded-full border-2 border-white animate-ping"></span>
                         <span class="absolute top-2 right-2 w-5 h-5 bg-green-500 rounded-full border-2 border-white"></span>
                     </div>
-                    <span class="font-extrabold text-gray-900 text-2xl tracking-wide">GuardianSense Hub</span>
-                    <span class="text-xs text-blue-600 font-bold mt-2 bg-blue-100/80 px-4 py-1.5 rounded-full">الذكاء الاصطناعي قيد التشغيل 🟢</span>
+                    <span class="font-extrabold text-gray-900 text-2xl">GuardianSense Hub</span>
+                    <span class="text-xs text-blue-600 font-bold mt-2 bg-blue-50 px-4 py-1.5 rounded-full">جاهز للرصد 🟢</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 2. لماذا GuardianSense؟ -->
-    <section id="why" class="py-24 bg-white">
+    <!-- 2. المشكلة والحل (Problem & Solution) -->
+    <section id="problem-solution" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h3 class="text-4xl font-extrabold text-center text-gray-900 mb-16">لماذا GuardianSense؟</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="bg-gray-50 rounded-3xl p-10 shadow-sm border border-gray-100 hover:-translate-y-2 transition">
-                    <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-8">🛡️</div>
-                    <h4 class="text-2xl font-bold mb-4 text-gray-900">خصوصية كاملة</h4>
-                    <ul class="text-gray-600 space-y-3 font-semibold">
-                        <li class="flex items-center"><span class="w-2.5 h-2.5 bg-blue-500 rounded-full ml-3"></span>لا يستخدم كاميرات نهائياً.</li>
-                        <li class="flex items-center"><span class="w-2.5 h-2.5 bg-blue-500 rounded-full ml-3"></span>لا يلتقط أي صور.</li>
-                        <li class="flex items-center"><span class="w-2.5 h-2.5 bg-blue-500 rounded-full ml-3"></span>لا يسجل مقاطع فيديو.</li>
-                        <li class="flex items-center"><span class="w-2.5 h-2.5 bg-blue-500 rounded-full ml-3"></span>يحافظ على الخصوصية 100%.</li>
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900">لماذا ابتكرنا هذا النظام؟</h2>
+                <p class="text-lg text-gray-600 mt-4">الطرق التقليدية لم تعد تكفي لحماية من نحب.</p>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- المشكلة -->
+                <div class="flex-1 bg-red-50 p-10 rounded-3xl border border-red-100">
+                    <div class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-3xl mb-6">❌</div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">المشكلة في الأنظمة الحالية</h3>
+                    <ul class="space-y-4 text-gray-700 font-semibold">
+                        <li class="flex items-start"><span class="text-red-500 ml-2 mt-1">▪</span> الكاميرات تنتهك الخصوصية وتجعل كبار السن غير مرتاحين.</li>
+                        <li class="flex items-start"><span class="text-red-500 ml-2 mt-1">▪</span> الأساور والساعات الذكية ينسى كبار السن ارتداءها أو شحنها.</li>
+                        <li class="flex items-start"><span class="text-red-500 ml-2 mt-1">▪</span> الإنذارات الكاذبة المزعجة بسبب عدم فهم الروتين اليومي (مثال: الاستيقاظ ليلاً للشرب).</li>
                     </ul>
                 </div>
-                <div class="bg-gray-50 rounded-3xl p-10 shadow-sm border border-gray-100 hover:-translate-y-2 transition">
-                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-3xl mb-8">🧠</div>
-                    <h4 class="text-2xl font-bold mb-4 text-gray-900">ذكاء اصطناعي شخصي</h4>
-                    <ul class="text-gray-600 space-y-3 font-semibold">
-                        <li class="flex items-center"><span class="w-2.5 h-2.5 bg-green-500 rounded-full ml-3"></span>يتعلم الروتين اليومي المخصص.</li>
-                        <li class="flex items-center"><span class="w-2.5 h-2.5 bg-green-500 rounded-full ml-3"></span>لا يعتمد على أوقات جامدة.</li>
-                        <li class="flex items-center"><span class="w-2.5 h-2.5 bg-green-500 rounded-full ml-3"></span>يتكيف تلقائياً مع نمط الحياة.</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-50 rounded-3xl p-10 shadow-sm border border-gray-100 hover:-translate-y-2 transition">
-                    <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl mb-8">🎯</div>
-                    <h4 class="text-2xl font-bold mb-4 text-gray-900">قرارات أكثر دقة</h4>
-                    <ul class="text-gray-600 space-y-3 font-semibold">
-                        <li class="flex items-center"><span class="w-2.5 h-2.5 bg-purple-500 rounded-full ml-3"></span>دمج مؤشرات متعددة.</li>
-                        <li class="flex items-center"><span class="w-2.5 h-2.5 bg-purple-500 rounded-full ml-3"></span>لا يكتفي برصد السقوط فقط.</li>
-                        <li class="flex items-center"><span class="w-2.5 h-2.5 bg-purple-500 rounded-full ml-3"></span>يمنع الإنذارات الكاذبة المزعجة.</li>
+                <!-- الحل -->
+                <div class="flex-1 bg-green-50 p-10 rounded-3xl border border-green-100 relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-green-200 rounded-full opacity-20"></div>
+                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-3xl mb-6 relative z-10">✅</div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 relative z-10">الحل مع GuardianSense</h3>
+                    <ul class="space-y-4 text-gray-700 font-semibold relative z-10">
+                        <li class="flex items-start"><span class="text-green-500 ml-2 mt-1">▪</span> مراقبة صامتة عبر موجات الرادار (بدون كاميرات أو عدسات).</li>
+                        <li class="flex items-start"><span class="text-green-500 ml-2 mt-1">▪</span> نظام محيطي لا يتطلب ارتداء أي جهاز على الجسم (Zero-Wearable).</li>
+                        <li class="flex items-start"><span class="text-green-500 ml-2 mt-1">▪</span> ذكاء اصطناعي يتعلم النمط الشخصي ويفرق بين "السقوط" و "الاستلقاء الطبيعي".</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- باقي الأقسام المكتملة بنفس الجودة والترتيب -->
-    <!-- ... (المشكلة والحل، مكونات الجهاز، الفيديو التوضيحي، التطبيق، السيناريوهات، التكنولوجيا، الأسئلة الشائعة، الفريق، اتصل بنا) ... -->
-    
-    <!-- قسم الأسئلة الشائعة التفاعلي (FAQ) -->
-    <section id="faq" class="py-24 bg-gray-50">
+    <!-- 3. مكونات الجهاز (Device Components) -->
+    <section id="device" class="py-24 bg-gray-50 border-t border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">هندسة متطورة في جهاز واحد</h2>
+            <p class="text-lg text-gray-600 mb-16">يتكون نظام GuardianSense من 13 طبقة تقنية متكاملة، أبرزها:</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Component Cards -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:border-blue-500 transition">
+                    <div class="text-4xl mb-4">📡</div>
+                    <h4 class="font-bold text-gray-900 mb-2">رادار mmWave</h4>
+                    <p class="text-sm text-gray-500">لرصد الحركة والتنفس بدقة ملليمترية عبر الجدران.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:border-blue-500 transition">
+                    <div class="text-4xl mb-4">🧠</div>
+                    <h4 class="font-bold text-gray-900 mb-2">معالج Edge AI</h4>
+                    <p class="text-sm text-gray-500">لمعالجة البيانات محلياً بدون رفعها للسحابة لضمان الخصوصية.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:border-blue-500 transition">
+                    <div class="text-4xl mb-4">🎙️</div>
+                    <h4 class="font-bold text-gray-900 mb-2">مستشعر صوتي (اختياري)</h4>
+                    <p class="text-sm text-gray-500">للتعرف على أصوات الاستغاثة أو الكسر (لا يسجل محادثات).</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:border-blue-500 transition">
+                    <div class="text-4xl mb-4">🔋</div>
+                    <h4 class="font-bold text-gray-900 mb-2">بطارية طوارئ</h4>
+                    <p class="text-sm text-gray-500">استمرار العمل لساعات في حال انقطاع التيار الكهربائي.</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <span class="inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-bold">+ 9 طبقات أخرى تشمل مستشعرات الحرارة، مؤشرات RGB، وأنظمة الاتصال الآمنة.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. العرض التوضيحي (Demo Section) -->
+    <section id="demo" class="py-24 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-6">شاهد GuardianSense في بيئة حقيقية</h2>
+            <p class="text-lg text-gray-600 mb-12">كيف يتفاعل النظام مع حالات الطوارئ ويفهم الروتين.</p>
+            
+            <!-- Video Mockup -->
+            <div class="relative w-full rounded-3xl overflow-hidden bg-gray-900 shadow-2xl aspect-video border-4 border-gray-800 flex items-center justify-center group cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1516156008625-3a9d0450a2a1?auto=format&fit=crop&w=1200&q=80" alt="Elderly room mockup" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-40 transition">
+                <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center relative z-10 shadow-lg group-hover:scale-110 transition duration-300">
+                    <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                <span class="absolute bottom-4 right-4 text-white font-bold bg-black/50 px-3 py-1 rounded-lg backdrop-blur-sm z-10">02:45 / تشغيل العرض</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. تطبيق الجوال (Application) -->
+    <section id="application" class="py-24 bg-blue-600 text-white overflow-hidden relative">
+        <!-- زينة خلفية -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform translate-x-1/2 -translate-y-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16 relative z-10">
+            <div class="lg:w-1/2 text-right">
+                <h2 class="text-4xl font-extrabold mb-6">تطبيق يضعك بجانبهم، أينما كنت</h2>
+                <p class="text-blue-100 text-lg mb-8 leading-relaxed">راقب الحالة العامة، استلم التنبيهات الذكية، وتواصل مباشرة عبر التطبيق بلمسة واحدة. واجهة مصممة لتكون بسيطة للعائلة وفعالة لمقدمي الرعاية.</p>
+                
+                <ul class="space-y-4 font-semibold text-lg">
+                    <li class="flex items-center"><div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center ml-4">🔔</div> تنبيهات فورية للحالات الحرجة (السقوط، غياب الحركة).</li>
+                    <li class="flex items-center"><div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center ml-4">📊</div> لوحة بيانات (Dashboard) لنمط النوم والحركة.</li>
+                    <li class="flex items-center"><div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center ml-4">👨‍👩‍👧‍👦</div> مشاركة الوصول مع أكثر من فرد في العائلة.</li>
+                    <li class="flex items-center"><div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center ml-4">📞</div> اتصال طوارئ بلمسة واحدة.</li>
+                </ul>
+            </div>
+            
+            <div class="lg:w-1/2 flex justify-center">
+                <!-- Phone Mockup -->
+                <div class="w-72 h-[36rem] bg-gray-900 rounded-[3rem] border-[8px] border-gray-800 shadow-2xl relative overflow-hidden flex flex-col">
+                    <div class="w-32 h-6 bg-gray-800 absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl"></div>
+                    <div class="flex-1 bg-gray-50 p-4 pt-10">
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="font-bold text-gray-800">تطبيق العائلة</span>
+                            <span class="text-xs text-green-600 font-bold bg-green-100 px-2 py-1 rounded">متصل</span>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4 text-center">
+                            <div class="text-4xl mb-2">👵</div>
+                            <h5 class="font-bold text-gray-800">غرفة الوالدة</h5>
+                            <p class="text-xs text-green-500 font-bold mt-1">الوضع مستقر - نائمة</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-4">
+                            <h6 class="font-bold text-blue-800 text-sm mb-2">نشاط اليوم</h6>
+                            <div class="w-full bg-blue-200 h-2 rounded-full mb-1"><div class="bg-blue-600 h-2 rounded-full w-3/4"></div></div>
+                            <span class="text-xs text-blue-600">نشاط طبيعي مطابق للروتين</span>
+                        </div>
+                        <button class="w-full bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold mt-auto absolute bottom-4 left-0 right-0 mx-4 w-[calc(100%-2rem)]">اتصال طوارئ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. سيناريوهات حية (Scenarios) -->
+    <section id="scenarios" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-16">كيف يعمل النظام في السيناريوهات الحقيقية؟</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-200 flex gap-6">
+                    <div class="text-5xl">🌙</div>
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">الاستيقاظ الليلي لدورة المياه</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-3">يعرف النظام أن المستخدم يستيقظ عادة في الساعة 2 صباحاً لمدة 10 دقائق.</p>
+                        <span class="inline-block bg-yellow-100 text-yellow-700 text-xs font-bold px-3 py-1 rounded-full">رد فعل النظام: ترقب صامت، لا يتم إرسال إنذار إلا إذا طالت المدة عن المعتاد.</span>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-200 flex gap-6">
+                    <div class="text-5xl">💥</div>
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">السقوط المفاجئ في المطبخ</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-3">رصد الرادار تغييراً حاداً في الارتفاع والتسارع لا يتطابق مع حركة الجلوس.</p>
+                        <span class="inline-block bg-red-100 text-red-700 text-xs font-bold px-3 py-1 rounded-full">رد فعل النظام: سؤال صوتي فوري للمستخدم، وإذا لم يستجب، يتم إرسال تنبيه حرج للعائلة.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. إطار اتخاذ القرار (Decision Framework) -->
+    <section id="framework" class="py-24 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-extrabold mb-4">إطار اتخاذ القرار (8 مراحل)</h2>
+            <p class="text-gray-400 mb-16 max-w-2xl mx-auto">خوارزميات معقدة تعمل في أجزاء من الثانية لضمان الدقة ومنع الإنذارات الخاطئة.</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-right">
+                <div class="step-card bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                    <div class="text-blue-400 font-black text-3xl mb-2">01</div>
+                    <h5 class="font-bold text-white mb-1">الاستشعار</h5>
+                    <p class="text-xs text-gray-400">جمع بيانات الرادار (mmWave).</p>
+                </div>
+                <div class="step-card bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                    <div class="text-blue-400 font-black text-3xl mb-2">02</div>
+                    <h5 class="font-bold text-white mb-1">الفلترة</h5>
+                    <p class="text-xs text-gray-400">إزالة الضوضاء (كحركة الحيوانات الأليفة).</p>
+                </div>
+                <div class="step-card bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                    <div class="text-blue-400 font-black text-3xl mb-2">03</div>
+                    <h5 class="font-bold text-white mb-1">التتبع</h5>
+                    <p class="text-xs text-gray-400">تحديد موقع الشخص وسرعته.</p>
+                </div>
+                <div class="step-card bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                    <div class="text-blue-400 font-black text-3xl mb-2">04</div>
+                    <h5 class="font-bold text-white mb-1">التصنيف</h5>
+                    <p class="text-xs text-gray-400">هل هو وقوف، جلوس، أم سقوط؟</p>
+                </div>
+                <div class="step-card bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                    <div class="text-blue-400 font-black text-3xl mb-2">05</div>
+                    <h5 class="font-bold text-white mb-1">مقارنة الروتين</h5>
+                    <p class="text-xs text-gray-400">مطابقة الحدث مع النمط اليومي (Baseline).</p>
+                </div>
+                <div class="step-card bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                    <div class="text-blue-400 font-black text-3xl mb-2">06</div>
+                    <h5 class="font-bold text-white mb-1">كشف الشذوذ</h5>
+                    <p class="text-xs text-gray-400">تأكيد وجود خطر حقيقي (Anomaly).</p>
+                </div>
+                <div class="step-card bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                    <div class="text-blue-400 font-black text-3xl mb-2">07</div>
+                    <h5 class="font-bold text-white mb-1">التفاعل المحلي</h5>
+                    <p class="text-xs text-gray-400">سؤال المريض عبر المكبر الصوتي أولاً.</p>
+                </div>
+                <div class="step-card bg-blue-600 p-6 rounded-2xl border border-blue-500 shadow-lg shadow-blue-500/20">
+                    <div class="text-white font-black text-3xl mb-2">08</div>
+                    <h5 class="font-bold text-white mb-1">الإنذار الحاسم</h5>
+                    <p class="text-xs text-blue-100">إرسال إشعار فوراً للتطبيق العائلي.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. فريق العمل (Team) -->
+    <section id="team" class="py-24 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">العقول وراء GuardianSense</h2>
+            <p class="text-gray-600 mb-16">فريق متعدد التخصصات يجمع بين الذكاء الاصطناعي، الهندسة الطبية، وتجربة المستخدم.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition">
+                    <div class="w-24 h-24 bg-blue-100 rounded-full mb-4 flex items-center justify-center text-3xl">👨‍💻</div>
+                    <h4 class="text-xl font-bold text-gray-900">م. أحمد</h4>
+                    <p class="text-blue-600 text-sm font-bold mb-2">خبير الذكاء الاصطناعي</p>
+                    <p class="text-gray-500 text-sm text-center">قيادة تطوير خوارزميات تحليل الروتين وتعلم الآلة.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition">
+                    <div class="w-24 h-24 bg-green-100 rounded-full mb-4 flex items-center justify-center text-3xl">👨‍🔧</div>
+                    <h4 class="text-xl font-bold text-gray-900">م. خالد</h4>
+                    <p class="text-green-600 text-sm font-bold mb-2">مهندس أنظمة مدمجة</p>
+                    <p class="text-gray-500 text-sm text-center">تصميم ودمج مستشعرات الرادار (mmWave) مع العتاد.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition">
+                    <div class="w-24 h-24 bg-purple-100 rounded-full mb-4 flex items-center justify-center text-3xl">👩‍🎨</div>
+                    <h4 class="text-xl font-bold text-gray-900">أ. نورة</h4>
+                    <p class="text-purple-600 text-sm font-bold mb-2">مصممة تجربة المستخدم</p>
+                    <p class="text-gray-500 text-sm text-center">تصميم التطبيق ليكون سهلاً لكبار السن ومقدمي الرعاية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. الأسئلة الشائعة (FAQ) -->
+    <section id="faq" class="py-24 bg-white border-t border-gray-100">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <div class="inline-block bg-blue-100 text-blue-700 font-bold px-4 py-2 rounded-full mb-4">FAQ</div>
-                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">الأسئلة الشائعة</h2>
-                <p class="text-gray-600">إجابات سريعة ومباشرة على الاستفسارات الأكثر أهمية.</p>
+                <h2 class="text-4xl font-extrabold text-gray-900">الأسئلة الشائعة</h2>
             </div>
-
             <div class="space-y-4">
-                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+                <div class="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
                     <button class="faq-toggle w-full px-6 py-5 text-right font-bold text-gray-900 flex justify-between items-center focus:outline-none">
                         <span>هل يعمل النظام في حال انقطاع اتصال الإنترنت أو الكهرباء؟</span>
                         <span class="faq-icon text-2xl text-blue-600">+</span>
                     </button>
-                    <div class="faq-answer hidden px-6 pb-5 text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
-                        نعم! يحتوي الجهاز على بطارية طوارئ لضمان استمرار العمل عند انقطاع الكهرباء، كما أن خوارزميات التقييم والإنذارات الصوتية تعمل محلياً على الشريحة بدون حاجتها المباشرة للإنترنت.
+                    <div class="faq-answer hidden px-6 pb-5 text-gray-600 leading-relaxed border-t border-gray-200 pt-3">
+                        نعم، يحتوي الجهاز على بطارية طوارئ، كما أن خوارزميات التقييم تعمل محلياً (Edge AI) ولا تتطلب اتصالاً مستمراً بالإنترنت لتحليل السقوط.
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+                <div class="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
                     <button class="faq-toggle w-full px-6 py-5 text-right font-bold text-gray-900 flex justify-between items-center focus:outline-none">
-                        <span>كيف يضمن الجهاز عدم انتهاك الخصوصية بنسبة 100%؟</span>
+                        <span>كيف يضمن الجهاز عدم انتهاك الخصوصية؟</span>
                         <span class="faq-icon text-2xl text-blue-600">+</span>
                     </button>
-                    <div class="faq-answer hidden px-6 pb-5 text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
-                        الجهاز خالي تماماً من البصريات والكاميرات، ويعتمد كلياً على موجات الرادار المليمترية (mmWave) التي ترصد الحركة ووضعية الجسم دون إظهار أي صور أو تفاصيل شخصية.
+                    <div class="faq-answer hidden px-6 pb-5 text-gray-600 leading-relaxed border-t border-gray-200 pt-3">
+                        الجهاز لا يحتوي على أي كاميرات أو عدسات بصرية إطلاقاً. يعتمد كلياً على موجات الرادار التي ترسم المجسم كنقاط غير مرئية لتحليل الحركة فقط.
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- قسم اتصل بنا -->
-    <section id="contact" class="py-24 bg-white border-t border-gray-100">
+    <!-- 10. اتصل بنا (Contact) -->
+    <section id="contact" class="py-24 bg-blue-50 border-t border-gray-200">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-4xl font-extrabold text-gray-900 mb-6">تواصل معنا</h2>
-            <p class="text-lg text-gray-600 mb-10">هل لديك استفسار أو ترغب في التواصل مع فريق GuardianSense؟</p>
-            <form class="bg-gray-50 p-8 rounded-3xl shadow-sm border border-gray-200 text-right space-y-6">
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">الاسم الكامل</label>
-                    <input type="text" placeholder="اكتب اسمك هنا" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-6">هل أنت مهتم بالنظام؟</h2>
+            <p class="text-lg text-gray-600 mb-10">سجل اهتمامك الآن للحصول على التحديثات أو طلب تجربة مبكرة.</p>
+            <form class="bg-white p-8 rounded-3xl shadow-sm border border-gray-200 text-right space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">الاسم</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">رقم الجوال أو البريد</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">البريد الإلكتروني</label>
-                    <input type="email" placeholder="example@mail.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">رسالتك (اختياري)</label>
+                    <textarea rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                 </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">الرسالة</label>
-                    <textarea rows="4" placeholder="اكتب استفسارك..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 transition">إرسال الرسالة</button>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 transition">إرسال الطلب</button>
             </form>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 py-10 border-t border-gray-800 text-center text-sm">
+    <footer class="bg-gray-900 text-gray-400 py-10 text-center text-sm">
         <div class="max-w-7xl mx-auto px-4">
-            <p class="mb-2 font-bold text-white text-lg">GuardianSense</p>
+            <div class="text-white font-extrabold text-2xl mb-4 tracking-tight">GuardianSense</div>
+            <p class="mb-4">ذكاء اصطناعي يفهم الروتين... قبل أن يطلق الإنذار.</p>
+            <div class="flex justify-center gap-6 mb-8 text-gray-500">
+                <a href="#" class="hover:text-white transition">تويتر</a>
+                <a href="#" class="hover:text-white transition">لينكد إن</a>
+                <a href="#" class="hover:text-white transition">يوتيوب</a>
+            </div>
             <p>© 2026 GuardianSense. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
 
     <!-- Scripts -->
     <script>
-        // Mobile Menu Toggle
+        // تفعيل قائمة الجوال
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-        // FAQ Toggle
+        // إغلاق قائمة الجوال عند النقر على أي رابط
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        // تفعيل الأسئلة الشائعة
         document.querySelectorAll('.faq-toggle').forEach(toggle => {
             toggle.addEventListener('click', () => {
                 const answer = toggle.nextElementSibling;
