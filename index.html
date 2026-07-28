@@ -173,7 +173,7 @@
             const btn = document.getElementById('otp-btn');
             btn.textContent = "جاري الإرسال...";
 
-            // إرسال الإيميل عبر EmailJS (استبدل YOUR_TEMPLATE_ID بالمعرّف الحقيقي من حسابك)
+            // إرسال الإيميل عبر EmailJS
             emailjs.send("service_2zk81aq", "template_uv9vcvq", {
                 to_email: email,
                 name: name,
@@ -182,7 +182,8 @@
                 alert("تم إرسال رمز التحقق بنجاح إلى بريدك الإلكتروني: " + email);
                 btn.textContent = "تم الإرسال ✓";
             }, function(error) {
-                alert("فشل الإرسال. تأكد من وضع Template ID الصحيح في الكود.");
+                console.log('FAILED...', error);
+                alert("فشل الإرسال. تأكد من إعدادات القالب في EmailJS.");
                 btn.textContent = "إرسال الرمز للبريد";
             });
         }
