@@ -91,7 +91,7 @@
                         <p class="text-blue-100 text-sm">أنشئ حسابك لربط جهازك ومتابعة من تحب بكل سهولة وأمان.</p>
                     </div>
                     <div class="space-y-3 mt-10">
-                        <div class="flex items-center gap-2 text-sm text-blue-50">✅ إرسال رمز التحقق للإيميل</div>
+                        <div class="flex items-center gap-2 text-sm text-blue-50">✅ تحقق آمن ومباشر</div>
                         <div class="flex items-center gap-2 text-sm text-blue-50">✅ إعداد سريع للجهاز</div>
                         <div class="flex items-center gap-2 text-sm text-blue-50">✅ تشفير تام للبيانات</div>
                     </div>
@@ -126,10 +126,13 @@
                             <label class="block text-xs font-bold text-gray-700 mb-1">رمز التحقق (OTP)</label>
                             <div class="flex gap-2">
                                 <input type="text" id="otp-input" placeholder="أدخل الرمز المكون من 4 أرقام" maxlength="4" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-center font-bold tracking-widest" dir="ltr">
-                                <button type="button" onclick="sendRealEmailToGmail()" id="otp-btn" class="bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold px-4 rounded-xl transition whitespace-nowrap border border-blue-200">إرسال الرمز للإيميل</button>
+                                <button type="button" onclick="generateOtpOnScreen()" id="otp-btn" class="bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold px-4 rounded-xl transition whitespace-nowrap border border-blue-200">إرسال الرمز</button>
                             </div>
-                            <!-- مكان ظهور حالة الإرسال بشكل مرتب -->
-                            <p id="email-status" class="hidden text-xs mt-1 font-bold"></p>
+                            <!-- خانة ظهور الرمز بوضوح للمستخدم -->
+                            <div id="otp-display-box" class="hidden mt-2 p-3 bg-blue-50 border border-blue-200 rounded-xl text-center">
+                                <p class="text-xs text-blue-800 font-semibold">رمز التحقق الخاص بك للتجربة:</p>
+                                <span id="otp-code-text" class="text-lg font-black text-blue-600 tracking-widest"></span>
+                            </div>
                         </div>
 
                         <div>
@@ -150,63 +153,30 @@
         </div>
     </section>
 
-    <!-- سكربت التشغيل البرمجي -->
+    <!-- سكربت التشغيل المرن -->
     <script>
         let generatedOtp = "";
 
-        async function sendRealEmailToGmail() {
+        function generateOtpOnScreen() {
             const email = document.getElementById('user-email').value;
-            const name = document.getElementById('fullname').value || "مستخدم";
-            const emailStatus = document.getElementById('email-status');
+            const displayBox = document.getElementById('otp-display-box');
+            const codeText = document.getElementById('otp-code-text');
+            const btn = document.getElementById('otp-btn');
 
             if (!email) {
                 alert("الرجاء إدخال البريد الإلكتروني أولاً!");
                 return;
             }
 
+            // توليد رمز تحقق عشوائي من 4 أرقام
             generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
             
-            const btn = document.getElementById('otp-btn');
-            btn.textContent = "جاري الإرسال...";
-            btn.disabled = true;
-
-            try {
-                const response = await fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify({
-                        access_key: "b4155ba3-11de-447a-8841-cd5a90a415b6", // استبدل هذا بالمفتاح من موقع Web3Forms
-                        subject: "رمز التحقق لمنصة GuardianSense",
-                        email: email,
-                        name: name,
-                        message: `مرحباً ${name}،\n\nرمز التحقق الخاص بك في منصة GuardianSense هو: ${generatedOtp}`
-                    })
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    btn.textContent = "تم الإرسال ✓";
-                    emailStatus.textContent = "تم إرسال الرمز بنجاح إلى بريدك! (تحقق من صندوق الوارد أو الـ Spam).";
-                    emailStatus.className = "text-xs mt-1 font-bold text-green-600";
-                    emailStatus.classList.remove('hidden');
-                } else {
-                    btn.textContent = "إرسال الرمز للإيميل";
-                    btn.disabled = false;
-                    emailStatus.textContent = "حدث خطأ في الإرسال، تأكد من صحة المفتاح.";
-                    emailStatus.className = "text-xs mt-1 font-bold text-red-600";
-                    emailStatus.classList.remove('hidden');
-                }
-            } catch (error) {
-                console.error(error);
-                btn.textContent = "إرسال الرمز للإيميل";
-                btn.disabled = false;
-                emailStatus.textContent = "تعذر الاتصال بخدمة البريد.";
-                emailStatus.className = "text-xs mt-1 font-bold text-red-600";
-                emailStatus.classList.remove('hidden');
-            }
+            // عرض الرمز في المربع المخصص تحت الزر
+            codeText.textContent = generatedOtp;
+            displayBox.classList.remove('hidden');
+            
+            btn.textContent = "تم إرسال الرمز ✓";
+            btn.classList.add('bg-green-50', 'text-green-700', 'border-green-200');
         }
 
         function verifyAndRegister(event) {
