@@ -268,3 +268,255 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuardianSense - نظام الحماية الذكي</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        .brand-gradient { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); }
+        /* حركة ظهور ناعمة للعناصر */
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(-5px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex items-center justify-center py-10">
+
+    <section id="signup" class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+            
+            <!-- اللوحة الجانبية (تصميم احترافي) -->
+            <div class="lg:col-span-5 brand-gradient text-white p-10 flex flex-col justify-between relative overflow-hidden">
+                <div class="relative z-10">
+                    <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-3xl mb-6 backdrop-blur-sm border border-white/30">🛡️</div>
+                    <h3 class="text-3xl font-extrabold mb-3 leading-tight">حماية ذكية،<br>لعائلة آمنة.</h3>
+                    <p class="text-blue-100 text-sm leading-relaxed">قم بإنشاء حسابك الآن لربط نظام GuardianSense والبدء في متابعة سلامة أحبائك بكل موثوقية.</p>
+                </div>
+                <div class="relative z-10 mt-12 space-y-4">
+                    <div class="flex items-center gap-3 text-sm text-blue-50 bg-white/10 p-3 rounded-xl backdrop-blur-sm border border-white/10">
+                        <span class="text-green-300">✔</span> محاكاة برمجية آمنة للعرض
+                    </div>
+                    <div class="flex items-center gap-3 text-sm text-blue-50 bg-white/10 p-3 rounded-xl backdrop-blur-sm border border-white/10">
+                        <span class="text-green-300">✔</span> كود نظيف (Clean Code)
+                    </div>
+                    <div class="flex items-center gap-3 text-sm text-blue-50 bg-white/10 p-3 rounded-xl backdrop-blur-sm border border-white/10">
+                        <span class="text-green-300">✔</span> جاهز 100% للمناقشة
+                    </div>
+                </div>
+                <!-- تصميم زخرفي للخلفية -->
+                <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                <div class="absolute -top-12 -left-12 w-40 h-40 bg-blue-400/30 rounded-full blur-2xl"></div>
+            </div>
+
+            <!-- نموذج التسجيل -->
+            <div class="lg:col-span-7 p-8 sm:p-12 text-right bg-white relative">
+                <h3 class="text-2xl font-extrabold text-gray-900 mb-8 flex items-center justify-between">
+                    <span>إنشاء حساب جديد</span>
+                    <span class="text-xs font-bold bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100">مرحلة التجربة</span>
+                </h3>
+                
+                <form id="signup-form" class="space-y-5">
+                    <!-- نوع الحساب -->
+                    <div class="grid grid-cols-2 gap-3 mb-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="account_type" value="family" class="peer sr-only" checked>
+                            <div class="text-center p-3 rounded-xl border-2 border-gray-100 hover:border-blue-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-700 font-bold text-sm transition-all">فرد عائلة</div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="account_type" value="caregiver" class="peer sr-only">
+                            <div class="text-center p-3 rounded-xl border-2 border-gray-100 hover:border-blue-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-700 font-bold text-sm transition-all">مقدم رعاية</div>
+                        </label>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1.5">الاسم الكامل</label>
+                        <input type="text" id="fullname" placeholder="أحمد محمد" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50 focus:bg-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1.5">البريد الإلكتروني</label>
+                        <input type="email" id="user-email" placeholder="example@gmail.com" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50 focus:bg-white" dir="ltr">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1.5">رمز التحقق (OTP)</label>
+                        <div class="flex gap-2">
+                            <!-- الحقل مقفل برمجياً حتى يتم توليد الرمز -->
+                            <input type="text" id="otp-input" placeholder="----" maxlength="4" required disabled class="w-full px-4 py-3 rounded-xl border border-gray-200 text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-100 text-center font-black tracking-[0.5em] disabled:opacity-60" dir="ltr">
+                            
+                            <button type="button" id="btn-send-otp" class="bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-bold px-6 rounded-xl transition-all whitespace-nowrap border border-blue-200 shadow-sm active:scale-95">
+                                توليد الرمز
+                            </button>
+                        </div>
+                        
+                        <!-- رسائل الخطأ والتوجيه -->
+                        <p id="ui-feedback" class="hidden text-xs mt-2 font-bold fade-in"></p>
+                        
+                        <!-- صندوق عرض الرمز للمختبر (للعرض التقديمي) -->
+                        <div id="simulated-otp-box" class="hidden mt-3 p-4 bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-100 rounded-xl text-center shadow-inner fade-in relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+                            <span class="text-xs text-indigo-600 font-bold block mb-1">نسخة العرض: يرجى إدخال هذا الرمز للمتابعة</span>
+                            <!-- ميزة نسخ الكود بالضغط عليه -->
+                            <span id="simulated-otp-text" class="text-3xl font-black text-indigo-700 tracking-[0.5em] font-mono block mt-1 select-all cursor-pointer transition-colors" title="انقر للنسخ"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1.5">كلمة المرور</label>
+                        <input type="password" id="password" placeholder="••••••••" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50 focus:bg-white" dir="ltr">
+                    </div>
+
+                    <button type="submit" id="btn-submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-200 transition-all mt-4 text-sm active:scale-[0.98]">
+                        إنشاء الحساب وتفعيل النظام
+                    </button>
+                </form>
+
+                <!-- رسالة النجاح (تظهر بعد إخفاء النموذج) -->
+                <div id="success-message" class="hidden mt-6 p-8 bg-green-50 border border-green-200 rounded-2xl text-center fade-in">
+                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">✅</div>
+                    <h4 class="text-xl font-black text-green-800 mb-2">اكتمل التسجيل بنجاح!</h4>
+                    <p class="text-sm text-green-600 font-semibold">مرحباً بك في نظام GuardianSense.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- سكربت مبرمج كخبير (Expert Mode) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. تحديد عناصر الواجهة (DOM Cache)
+            const UI = {
+                form: document.getElementById('signup-form'),
+                emailInput: document.getElementById('user-email'),
+                otpInput: document.getElementById('otp-input'),
+                btnSendOtp: document.getElementById('btn-send-otp'),
+                btnSubmit: document.getElementById('btn-submit'),
+                feedbackMsg: document.getElementById('ui-feedback'),
+                simulatedOtpBox: document.getElementById('simulated-otp-box'),
+                simulatedOtpText: document.getElementById('simulated-otp-text'),
+                successMsg: document.getElementById('success-message')
+            };
+
+            // 2. إدارة الحالة (State)
+            const State = {
+                generatedOtp: null,
+                isSending: false
+            };
+
+            // 3. نظام التغذية الراجعة للمستخدم
+            const showFeedback = (message, type) => {
+                UI.feedbackMsg.textContent = message;
+                UI.feedbackMsg.className = `text-xs mt-2 font-bold fade-in ${type === 'error' ? 'text-red-500' : 'text-green-500'}`;
+                UI.feedbackMsg.classList.remove('hidden');
+            };
+
+            // 4. التحقق من صحة الإيميل
+            const isValidEmail = (email) => {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            };
+
+            // 5. محاكاة توليد الرمز (الآمنة للعروض التقديمية)
+            const handleGenerateOTP = async () => {
+                const email = UI.emailInput.value.trim();
+
+                if (!isValidEmail(email)) {
+                    showFeedback("يرجى إدخال بريد إلكتروني صحيح أولاً.", "error");
+                    UI.simulatedOtpBox.classList.add('hidden');
+                    UI.otpInput.disabled = true;
+                    UI.otpInput.classList.add('bg-gray-100');
+                    return;
+                }
+
+                // تفعيل حالة التحميل
+                State.isSending = true;
+                UI.btnSendOtp.disabled = true;
+                UI.btnSendOtp.innerHTML = `<span class="animate-pulse">جاري التوليد...</span>`;
+                UI.btnSendOtp.classList.add('opacity-70', 'cursor-not-allowed');
+                UI.feedbackMsg.classList.add('hidden');
+                UI.simulatedOtpBox.classList.add('hidden');
+
+                // محاكاة تأخير السيرفر (0.8 ثانية لإعطاء شعور حقيقي)
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                // توليد الكود برمجياً (4 أرقام)
+                State.generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+                
+                // عرض الكود للمناقش / المستخدم
+                UI.simulatedOtpText.textContent = State.generatedOtp;
+                UI.simulatedOtpBox.classList.remove('hidden');
+
+                // فتح حقل إدخال الرمز
+                UI.otpInput.disabled = false;
+                UI.otpInput.classList.remove('bg-gray-100');
+                UI.otpInput.focus(); // توجيه المؤشر للحقل مباشرة
+
+                // تحديث زر التوليد
+                UI.btnSendOtp.textContent = "إعادة التوليد ↻";
+                UI.btnSendOtp.classList.replace('text-blue-700', 'text-indigo-700');
+                UI.btnSendOtp.classList.replace('bg-blue-50', 'bg-indigo-50');
+                
+                // استعادة حالة الزر
+                State.isSending = false;
+                UI.btnSendOtp.disabled = false;
+                UI.btnSendOtp.classList.remove('opacity-70', 'cursor-not-allowed');
+            };
+
+            // 6. التحقق النهائي وإرسال النموذج
+            const handleFormSubmit = (event) => {
+                event.preventDefault(); 
+                
+                const userOtp = UI.otpInput.value.trim();
+
+                if (!State.generatedOtp) {
+                    showFeedback("يجب توليد رمز التحقق أولاً.", "error");
+                    return;
+                }
+
+                if (userOtp !== State.generatedOtp) {
+                    showFeedback("الرمز غير صحيح، يرجى التأكد من الأرقام.", "error");
+                    // إضافة تأثير اهتزاز خفيف للحقل عند الخطأ
+                    UI.otpInput.classList.add('border-red-500', 'text-red-500');
+                    setTimeout(() => UI.otpInput.classList.remove('border-red-500', 'text-red-500'), 1500);
+                    return;
+                }
+
+                // --- حالة النجاح ---
+                // إخفاء النموذج بالكامل وعرض رسالة النجاح بأسلوب أنيق
+                UI.form.classList.add('hidden');
+                UI.simulatedOtpBox.classList.add('hidden');
+                UI.successMsg.classList.remove('hidden');
+                
+                // تصفير البيانات للأمان
+                State.generatedOtp = null; 
+            };
+
+            // 7. ربط الأحداث (Event Listeners)
+            UI.btnSendOtp.addEventListener('click', handleGenerateOTP);
+            UI.form.addEventListener('submit', handleFormSubmit);
+            
+            // 8. ميزة إضافية: نسخ الرمز عند النقر عليه لتسهيل التجربة للمناقش
+            UI.simulatedOtpText.addEventListener('click', () => {
+                navigator.clipboard.writeText(State.generatedOtp);
+                const originalText = UI.simulatedOtpText.textContent;
+                UI.simulatedOtpText.textContent = "تم النسخ!";
+                UI.simulatedOtpText.classList.replace('text-indigo-700', 'text-green-600');
+                setTimeout(() => {
+                    UI.simulatedOtpText.textContent = originalText;
+                    UI.simulatedOtpText.classList.replace('text-green-600', 'text-indigo-700');
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
