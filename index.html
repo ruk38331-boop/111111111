@@ -93,6 +93,77 @@
             html { scroll-behavior: auto; }
             *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
         }
+
+
+        /* نظام الحساب التجريبي */
+        .auth-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, .72);
+            backdrop-filter: blur(8px);
+        }
+        .auth-modal.open { display: flex; }
+        .auth-panel {
+            width: min(100%, 620px);
+            max-height: 92vh;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 28px;
+            box-shadow: 0 30px 80px rgba(15, 23, 42, .28);
+            position: relative;
+        }
+        .dashboard-panel { width: min(100%, 920px); }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 42px;
+            height: 42px;
+            border-radius: 9999px;
+            background: #f1f5f9;
+            color: #334155;
+            border: 0;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .auth-tab { color: #64748b; border-bottom: 3px solid transparent; }
+        .auth-tab.active { color: #2563eb; border-bottom-color: #2563eb; }
+        .auth-view { display: none; }
+        .auth-view.active { display: block; }
+        .password-meter { height: 7px; background: #e2e8f0; border-radius: 9999px; overflow: hidden; }
+        .password-meter > span { display: block; width: 0; height: 100%; background: #ef4444; transition: width .2s ease, background .2s ease; }
+        .field-error { display: none; margin-top: 6px; color: #b91c1c; font-size: .8rem; font-weight: 700; }
+        .field-error.show { display: block; }
+        .account-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 13px; border-radius: 9999px; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-weight: 800; font-size: .8rem; }
+        .dashboard-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 22px; padding: 20px; }
+        .toggle-password { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); border: 0; background: transparent; color: #64748b; font-weight: 800; cursor: pointer; }
+        #site-toast {
+            position: fixed;
+            left: 50%;
+            bottom: 28px;
+            transform: translate(-50%, 16px);
+            z-index: 120;
+            max-width: min(92vw, 520px);
+            padding: 13px 18px;
+            border-radius: 14px;
+            background: #0f172a;
+            color: #fff;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, .28);
+            opacity: 0;
+            visibility: hidden;
+            transition: .25s ease;
+            font-weight: 700;
+            text-align: center;
+        }
+        #site-toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+        #site-toast.error { background: #991b1b; }
+        body.modal-open { overflow: hidden; }
     </style>
 </head>
 <body class="bg-white text-gray-800 antialiased">
@@ -114,6 +185,7 @@
                     <a href="#privacy" class="nav-link rounded-lg px-3 py-2 text-gray-700 hover:text-blue-600">الخصوصية</a>
                     <a href="#research" class="nav-link rounded-lg px-3 py-2 text-gray-700 hover:text-blue-600">المراجع</a>
                     <a href="#contact" class="bg-blue-600 text-white rounded-full px-5 py-2.5 hover:bg-blue-700 transition">تواصل معنا</a>
+                    <button id="account-button" type="button" data-open-auth="register" class="border-2 border-blue-600 text-blue-700 rounded-full px-5 py-2 hover:bg-blue-50 transition font-extrabold">إنشاء حساب</button>
                 </div>
             </div>
             <div id="mobile-menu" class="mobile-menu lg:hidden pb-4 border-t border-gray-100" aria-hidden="true">
@@ -127,6 +199,7 @@
                     <a href="#privacy" class="nav-link rounded-xl px-3 py-3 bg-gray-50">الخصوصية</a>
                     <a href="#research" class="nav-link rounded-xl px-3 py-3 bg-gray-50">المراجع</a>
                     <a href="#contact" class="col-span-2 bg-blue-600 text-white text-center rounded-xl px-3 py-3">تواصل معنا</a>
+                    <button id="mobile-account-button" type="button" data-open-auth="register" class="col-span-2 border-2 border-blue-600 text-blue-700 text-center rounded-xl px-3 py-3 font-extrabold">إنشاء حساب</button>
                 </div>
             </div>
         </div>
@@ -150,6 +223,7 @@
                 <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
                     <a href="#device" class="bg-blue-600 text-white text-center px-8 py-4 rounded-full font-bold shadow-lg hover:bg-blue-700 transition">اكتشف النظام</a>
                     <a href="#technology" class="bg-white text-blue-600 text-center border-2 border-blue-600 px-8 py-4 rounded-full font-bold hover:bg-blue-50 transition">شاهد كيف يعمل</a>
+                    <button type="button" data-open-auth="register" class="bg-gray-900 text-white text-center px-8 py-4 rounded-full font-bold hover:bg-gray-800 transition">ابدأ بحساب تجريبي</button>
                 </div>
             </div>
             <div class="lg:w-1/2 mt-16 lg:mt-0 flex justify-center relative">
@@ -584,6 +658,45 @@
         </div>
     </section>
 
+
+
+    <!-- منصة حساب العائلة -->
+    <section id="family-platform" class="py-24 bg-gradient-to-b from-white to-blue-50 border-y border-blue-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-14 items-center">
+                <div>
+                    <span class="account-chip mb-5">👤 حساب العائلة التجريبي</span>
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-6">لوحة واحدة لمتابعة الحساب والجهاز</h2>
+                    <p class="text-lg text-gray-600 leading-relaxed mb-8">أنشئ حسابًا تجريبيًا، احفظ بيانات التواصل، اربط رمز الجهاز، وراجع حالة الربط من لوحة مبسطة. هذه النسخة تعمل محليًا في متصفحك لأغراض العرض فقط.</p>
+                    <div class="grid sm:grid-cols-2 gap-4 mb-8">
+                        <div class="dashboard-card"><div class="text-2xl mb-2">🔐</div><h3 class="font-extrabold mb-1">تسجيل آمن تجريبيًا</h3><p class="text-sm text-gray-600">لا تُحفظ كلمة المرور كنص صريح.</p></div>
+                        <div class="dashboard-card"><div class="text-2xl mb-2">📟</div><h3 class="font-extrabold mb-1">ربط رمز الجهاز</h3><p class="text-sm text-gray-600">حفظ حالة الربط داخل المتصفح.</p></div>
+                        <div class="dashboard-card"><div class="text-2xl mb-2">☎️</div><h3 class="font-extrabold mb-1">جهة اتصال للطوارئ</h3><p class="text-sm text-gray-600">إضافة وتعديل بيانات الشخص المسؤول.</p></div>
+                        <div class="dashboard-card"><div class="text-2xl mb-2">🧾</div><h3 class="font-extrabold mb-1">ملف حساب واضح</h3><p class="text-sm text-gray-600">الاسم والدور والبريد وتاريخ الإنشاء.</p></div>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <button type="button" data-open-auth="register" class="bg-blue-600 text-white px-7 py-3.5 rounded-full font-extrabold hover:bg-blue-700">إنشاء حساب</button>
+                        <button type="button" data-open-auth="login" class="bg-white text-blue-700 border-2 border-blue-600 px-7 py-3 rounded-full font-extrabold hover:bg-blue-50">تسجيل الدخول</button>
+                    </div>
+                    <p class="mt-5 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-xl p-3">تنبيه: الحساب في هذه النسخة محلي وتجريبي، وليس نظام حسابات سحابيًا أو طبيًا معتمدًا.</p>
+                </div>
+                <div class="bg-gray-950 text-white rounded-[2rem] p-6 sm:p-8 shadow-2xl">
+                    <div class="flex justify-between items-center mb-7">
+                        <div><p class="text-blue-300 text-sm font-bold">GuardianSense Family</p><h3 class="text-2xl font-extrabold">لوحة المتابعة</h3></div>
+                        <span class="bg-green-500/15 text-green-300 border border-green-500/30 rounded-full px-3 py-1 text-xs font-bold">نموذج عرض</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-5"><div class="text-gray-400 text-xs mb-2">حالة الشخص</div><div class="text-green-300 font-extrabold text-xl">آمن</div></div>
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-5"><div class="text-gray-400 text-xs mb-2">حالة الجهاز</div><div class="text-blue-300 font-extrabold text-xl">متصل</div></div>
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-5"><div class="text-gray-400 text-xs mb-2">البطارية</div><div class="font-extrabold text-xl">86%</div></div>
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-5"><div class="text-gray-400 text-xs mb-2">آخر تحديث</div><div class="font-extrabold text-xl">الآن</div></div>
+                    </div>
+                    <div class="bg-blue-600/15 border border-blue-500/25 rounded-2xl p-5"><p class="text-blue-200 text-sm font-bold mb-1">آخر ملخص</p><p class="text-gray-300 text-sm">لا توجد تنبيهات حرجة في نموذج العرض الحالي.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- الأسئلة الشائعة -->
     <section id="faq" class="py-24 bg-gray-50">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -609,6 +722,12 @@
                         <span>هل النظام جهاز طبي معتمد؟</span><span class="faq-icon text-blue-600">⌄</span>
                     </button>
                     <div class="faq-answer"><p class="px-6 pb-6 text-gray-600 leading-relaxed">لا. المشروع في مرحلة البحث والتطوير، ولا ينبغي اعتباره بديلًا عن الرعاية الطبية أو خدمات الطوارئ المعتمدة.</p></div>
+                </article>
+                <article class="faq-item bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                    <button type="button" class="faq-toggle w-full p-6 flex justify-between items-center text-right font-bold text-lg" aria-expanded="false">
+                        <span>هل إنشاء الحساب حقيقي؟</span><span class="faq-icon text-blue-600">⌄</span>
+                    </button>
+                    <div class="faq-answer"><p class="px-6 pb-6 text-gray-600 leading-relaxed">الحساب الموجود في نسخة العرض يعمل محليًا داخل متصفحك ولا يرسل البيانات إلى خادم GuardianSense. إطلاق حسابات حقيقية يتطلب ربط الموقع بخدمة خلفية مثل Supabase أو Firebase مع سياسات أمان وخصوصية مناسبة.</p></div>
                 </article>
             </div>
         </div>
@@ -723,7 +842,7 @@
                 <h2 class="text-3xl font-extrabold text-gray-900 mb-5">سياسة الخصوصية المختصرة للموقع</h2>
                 <div class="space-y-4 text-gray-600 leading-relaxed">
                     <p><strong class="text-gray-900">نموذج التواصل:</strong> تُستخدم بيانات الاسم والبريد والرسالة للرد على الاستفسار فقط.</p>
-                    <p><strong class="text-gray-900">الموقع التعريفي:</strong> لا يطلب الموقع إنشاء حساب ولا يجمع بيانات صحية من خلال هذه الصفحة.</p>
+                    <p><strong class="text-gray-900">الحساب التجريبي:</strong> عند إنشاء حساب في نسخة العرض تُحفظ بيانات الملف وكلمة المرور المشتقة محليًا داخل متصفح المستخدم، ولا تُرسل إلى خادم GuardianSense. يمكن حذف الحساب من لوحة الحساب.</p><p><strong class="text-gray-900">البيانات الصحية:</strong> لا يجمع هذا الموقع التعريفي بيانات صحية فعلية، ولا ينبغي إدخال معلومات طبية حساسة في الحساب التجريبي.</p>
                     <p><strong class="text-gray-900">الخدمات الخارجية:</strong> يعتمد التصميم على Google Fonts وTailwind CDN، ويستخدم Web3Forms لمعالجة رسائل نموذج التواصل.</p>
                     <p><strong class="text-gray-900">المشروع الفعلي:</strong> أي اختبار ميداني مستقبلًا يتطلب سياسة تفصيلية مستقلة للموافقة وحفظ البيانات والحذف والصلاحيات والأمان.</p>
                 </div>
@@ -740,11 +859,92 @@
 
     </main>
 
+
+
+    <!-- نافذة التسجيل وتسجيل الدخول -->
+    <div id="auth-modal" class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title" aria-hidden="true">
+        <div class="auth-panel">
+            <button type="button" class="modal-close" data-close-modal aria-label="إغلاق">×</button>
+            <div class="p-6 sm:p-9">
+                <div class="text-center mb-6">
+                    <span class="account-chip mb-3">نسخة عرض محلية</span>
+                    <h2 id="auth-title" class="text-3xl font-extrabold text-gray-900">حساب GuardianSense</h2>
+                    <p class="text-gray-500 mt-2 text-sm">لا تستخدم كلمة مرور تستعملها في حساباتك الحقيقية.</p>
+                </div>
+                <div class="grid grid-cols-2 border-b border-gray-200 mb-7">
+                    <button id="register-tab" type="button" class="auth-tab active py-3 font-extrabold" data-auth-tab="register">إنشاء حساب</button>
+                    <button id="login-tab" type="button" class="auth-tab py-3 font-extrabold" data-auth-tab="login">تسجيل الدخول</button>
+                </div>
+
+                <form id="register-form" class="auth-view active space-y-4" novalidate>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div><label for="reg-name" class="block font-bold mb-2">الاسم الكامل</label><input id="reg-name" name="name" type="text" autocomplete="name" minlength="2" maxlength="70" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500" placeholder="مثال: أحمد محمد"></div>
+                        <div><label for="reg-role" class="block font-bold mb-2">صفة المستخدم</label><select id="reg-role" name="role" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 bg-white"><option value="family">فرد من العائلة</option><option value="caregiver">مقدم رعاية</option><option value="researcher">باحث أو مشرف</option></select></div>
+                    </div>
+                    <div><label for="reg-email" class="block font-bold mb-2">البريد الإلكتروني</label><input id="reg-email" name="email" type="email" autocomplete="email" maxlength="120" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500" placeholder="name@example.com"></div>
+                    <div><label for="reg-phone" class="block font-bold mb-2">رقم الجوال</label><input id="reg-phone" name="phone" type="tel" autocomplete="tel" minlength="8" maxlength="18" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500" placeholder="05xxxxxxxx"></div>
+                    <div>
+                        <label for="reg-password" class="block font-bold mb-2">كلمة المرور</label>
+                        <div class="relative"><input id="reg-password" name="password" type="password" autocomplete="new-password" minlength="8" required class="w-full px-4 py-3 pl-20 rounded-xl border border-gray-300 focus:border-blue-500" placeholder="8 أحرف، تتضمن رقمًا"><button class="toggle-password" type="button" data-toggle-password="reg-password">إظهار</button></div>
+                        <div class="password-meter mt-2"><span id="password-meter-bar"></span></div><p id="password-strength-text" class="text-xs text-gray-500 mt-1">استخدم 8 أحرف على الأقل وتأكد من وجود رقم.</p>
+                    </div>
+                    <div><label for="reg-confirm" class="block font-bold mb-2">تأكيد كلمة المرور</label><div class="relative"><input id="reg-confirm" name="confirm" type="password" autocomplete="new-password" required class="w-full px-4 py-3 pl-20 rounded-xl border border-gray-300 focus:border-blue-500"><button class="toggle-password" type="button" data-toggle-password="reg-confirm">إظهار</button></div></div>
+                    <label class="flex gap-3 items-start text-sm text-gray-600"><input id="reg-terms" type="checkbox" required class="mt-1 w-4 h-4"><span>أوافق على أن هذا حساب تجريبي محلي وعلى <a href="#privacy-policy" data-close-modal class="text-blue-700 underline font-bold">سياسة الخصوصية المختصرة</a>.</span></label>
+                    <div id="register-error" class="form-status" role="alert"></div>
+                    <button id="register-submit" type="submit" class="w-full bg-blue-600 text-white py-3.5 rounded-xl font-extrabold hover:bg-blue-700 disabled:opacity-60">إنشاء الحساب التجريبي</button>
+                </form>
+
+                <form id="login-form" class="auth-view space-y-4" novalidate>
+                    <div><label for="login-email" class="block font-bold mb-2">البريد الإلكتروني</label><input id="login-email" name="email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500"></div>
+                    <div><label for="login-password" class="block font-bold mb-2">كلمة المرور</label><div class="relative"><input id="login-password" name="password" type="password" autocomplete="current-password" required class="w-full px-4 py-3 pl-20 rounded-xl border border-gray-300 focus:border-blue-500"><button class="toggle-password" type="button" data-toggle-password="login-password">إظهار</button></div></div>
+                    <div id="login-error" class="form-status" role="alert"></div>
+                    <button id="login-submit" type="submit" class="w-full bg-gray-900 text-white py-3.5 rounded-xl font-extrabold hover:bg-gray-800 disabled:opacity-60">تسجيل الدخول</button>
+                    <button type="button" data-auth-tab="register" class="w-full text-blue-700 font-bold py-2">ليس لديك حساب؟ أنشئ حسابًا</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- لوحة الحساب -->
+    <div id="dashboard-modal" class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="dashboard-title" aria-hidden="true">
+        <div class="auth-panel dashboard-panel">
+            <button type="button" class="modal-close" data-close-dashboard aria-label="إغلاق">×</button>
+            <div class="p-6 sm:p-9">
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-4 mb-8">
+                    <div><span class="account-chip mb-3">الحساب التجريبي</span><h2 id="dashboard-title" class="text-3xl font-extrabold text-gray-900">مرحبًا، <span id="dashboard-name">—</span></h2><p id="dashboard-meta" class="text-gray-500 mt-2">—</p></div>
+                    <div class="flex gap-2 self-start"><button id="logout-button" type="button" class="px-4 py-2 rounded-xl border border-gray-300 font-bold">تسجيل الخروج</button><button id="delete-account-button" type="button" class="px-4 py-2 rounded-xl bg-red-50 text-red-700 border border-red-200 font-bold">حذف الحساب</button></div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 mb-7">
+                    <div class="dashboard-card"><p class="text-sm text-gray-500 mb-2">حالة الحساب</p><p class="font-extrabold text-green-700">نشط محليًا</p></div>
+                    <div class="dashboard-card"><p class="text-sm text-gray-500 mb-2">حالة الجهاز</p><p id="device-status" class="font-extrabold text-amber-700">غير مربوط</p></div>
+                    <div class="dashboard-card"><p class="text-sm text-gray-500 mb-2">معرّف الحساب</p><p id="account-id" class="font-mono font-bold text-sm break-all">—</p></div>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-5">
+                    <form id="device-form" class="dashboard-card space-y-3">
+                        <h3 class="text-xl font-extrabold">ربط جهاز تجريبي</h3><p class="text-sm text-gray-600">أدخل رمزًا مكوّنًا من 6 أحرف أو أرقام.</p>
+                        <input id="device-code" type="text" minlength="6" maxlength="20" class="w-full px-4 py-3 rounded-xl border border-gray-300 uppercase" placeholder="GS-1024">
+                        <div class="flex gap-2"><button type="submit" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-extrabold">حفظ الرمز</button><button id="unlink-device" type="button" class="px-4 py-3 rounded-xl border border-gray-300 font-bold">إلغاء الربط</button></div>
+                    </form>
+                    <form id="emergency-form" class="dashboard-card space-y-3">
+                        <h3 class="text-xl font-extrabold">جهة اتصال للطوارئ</h3>
+                        <input id="emergency-name" type="text" maxlength="70" class="w-full px-4 py-3 rounded-xl border border-gray-300" placeholder="اسم جهة الاتصال">
+                        <input id="emergency-phone" type="tel" maxlength="18" class="w-full px-4 py-3 rounded-xl border border-gray-300" placeholder="رقم الجوال">
+                        <button type="submit" class="w-full bg-gray-900 text-white py-3 rounded-xl font-extrabold">حفظ البيانات</button>
+                    </form>
+                </div>
+                <div class="mt-6 p-4 bg-amber-50 text-amber-900 border border-amber-200 rounded-2xl text-sm leading-relaxed">هذه اللوحة نموذج عرض. بياناتها محفوظة في هذا المتصفح فقط، ولا ترسل تنبيهات فعلية ولا تتصل بجهاز حقيقي أو خدمات طوارئ.</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="site-toast" role="status" aria-live="polite"></div>
+
     <footer class="bg-gray-950 text-gray-400 py-16 text-center border-t border-gray-900">
         <div class="max-w-7xl mx-auto px-4">
             <h4 class="text-3xl font-extrabold text-white mb-2 tracking-tight">GuardianSense</h4>
             <p class="text-lg font-medium text-blue-400 mb-1">AI Safety System - Designed for Elderly Care</p>
             <div class="flex flex-wrap justify-center gap-5 my-6 text-sm font-bold">
+                <a href="#family-platform" class="hover:text-white">حساب العائلة</a>
                 <a href="#privacy" class="hover:text-white">مبادئ الخصوصية</a>
                 <a href="#privacy-policy" class="hover:text-white">سياسة الموقع</a>
                 <a href="#research" class="hover:text-white">المراجع العلمية</a>
@@ -839,6 +1039,247 @@
                 submitButton.textContent = 'إرسال الرسالة';
             }
         });
+
+
+        // حسابات العرض المحلية: للاختبار فقط، وليست بديلًا عن خادم مصادقة حقيقي.
+        const GS_USERS_KEY = 'guardiansense_demo_users_v2';
+        const GS_SESSION_KEY = 'guardiansense_demo_session_v2';
+        const authModal = document.getElementById('auth-modal');
+        const dashboardModal = document.getElementById('dashboard-modal');
+        const registerForm = document.getElementById('register-form');
+        const loginForm = document.getElementById('login-form');
+        const registerError = document.getElementById('register-error');
+        const loginError = document.getElementById('login-error');
+        const accountButton = document.getElementById('account-button');
+        const mobileAccountButton = document.getElementById('mobile-account-button');
+        const toast = document.getElementById('site-toast');
+        let toastTimer;
+
+        function getUsers() {
+            try { return JSON.parse(localStorage.getItem(GS_USERS_KEY) || '[]'); }
+            catch { return []; }
+        }
+        function saveUsers(users) { localStorage.setItem(GS_USERS_KEY, JSON.stringify(users)); }
+        function getSessionId() { return localStorage.getItem(GS_SESSION_KEY); }
+        function getCurrentUser() { return getUsers().find((user) => user.id === getSessionId()) || null; }
+        function makeId() { return 'GS-' + crypto.getRandomValues(new Uint32Array(1))[0].toString(16).toUpperCase(); }
+        function bytesToHex(bytes) { return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join(''); }
+        function hexToBytes(hex) { return new Uint8Array(hex.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))); }
+
+        async function derivePassword(password, saltHex) {
+            if (!window.crypto?.subtle) throw new Error('افتح الموقع من خلال Live Server لتشغيل التشفير المحلي.');
+            const material = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+            const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt: hexToBytes(saltHex), iterations: 120000, hash: 'SHA-256' }, material, 256);
+            return bytesToHex(new Uint8Array(bits));
+        }
+
+        function showToast(message, isError = false) {
+            clearTimeout(toastTimer);
+            toast.textContent = message;
+            toast.className = isError ? 'show error' : 'show';
+            toastTimer = setTimeout(() => { toast.className = ''; }, 3600);
+        }
+        function setFormMessage(element, message = '', isError = true) {
+            element.textContent = message;
+            element.className = message ? `form-status show ${isError ? 'error' : 'success'}` : 'form-status';
+        }
+        function setModal(modal, open) {
+            modal.classList.toggle('open', open);
+            modal.setAttribute('aria-hidden', String(!open));
+            document.body.classList.toggle('modal-open', open || authModal.classList.contains('open') || dashboardModal.classList.contains('open'));
+        }
+        function switchAuthTab(mode) {
+            document.querySelectorAll('[data-auth-tab]').forEach((button) => button.classList.toggle('active', button.dataset.authTab === mode && button.classList.contains('auth-tab')));
+            registerForm.classList.toggle('active', mode === 'register');
+            loginForm.classList.toggle('active', mode === 'login');
+            setFormMessage(registerError);
+            setFormMessage(loginError);
+            setTimeout(() => document.getElementById(mode === 'register' ? 'reg-name' : 'login-email')?.focus(), 50);
+        }
+        function openAuth(mode = 'register') {
+            if (getCurrentUser()) { openDashboard(); return; }
+            switchAuthTab(mode);
+            setModal(authModal, true);
+        }
+        function closeAuth() { setModal(authModal, false); }
+
+        document.querySelectorAll('[data-open-auth]').forEach((button) => button.addEventListener('click', () => openAuth(button.dataset.openAuth)));
+        document.querySelectorAll('[data-auth-tab]').forEach((button) => button.addEventListener('click', () => switchAuthTab(button.dataset.authTab)));
+        document.querySelectorAll('[data-close-modal]').forEach((button) => button.addEventListener('click', closeAuth));
+        document.querySelectorAll('[data-toggle-password]').forEach((button) => button.addEventListener('click', () => {
+            const input = document.getElementById(button.dataset.togglePassword);
+            const reveal = input.type === 'password';
+            input.type = reveal ? 'text' : 'password';
+            button.textContent = reveal ? 'إخفاء' : 'إظهار';
+        }));
+        authModal.addEventListener('click', (event) => { if (event.target === authModal) closeAuth(); });
+        dashboardModal.addEventListener('click', (event) => { if (event.target === dashboardModal) closeDashboard(); });
+        document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { closeAuth(); closeDashboard(); } });
+
+        const passwordInput = document.getElementById('reg-password');
+        passwordInput.addEventListener('input', () => {
+            const value = passwordInput.value;
+            let score = 0;
+            if (value.length >= 8) score++;
+            if (/\d/.test(value)) score++;
+            if (/[A-Za-z\u0600-\u06FF]/.test(value)) score++;
+            if (/[^A-Za-z0-9\u0600-\u06FF]/.test(value)) score++;
+            const widths = ['0%', '25%', '50%', '75%', '100%'];
+            const colors = ['#ef4444', '#ef4444', '#f59e0b', '#3b82f6', '#16a34a'];
+            const labels = ['ضعيفة جدًا', 'ضعيفة', 'متوسطة', 'جيدة', 'قوية'];
+            document.getElementById('password-meter-bar').style.width = widths[score];
+            document.getElementById('password-meter-bar').style.background = colors[score];
+            document.getElementById('password-strength-text').textContent = value ? `قوة كلمة المرور: ${labels[score]}` : 'استخدم 8 أحرف على الأقل وتأكد من وجود رقم.';
+        });
+
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            setFormMessage(registerError);
+            const submit = document.getElementById('register-submit');
+            const data = new FormData(registerForm);
+            const name = String(data.get('name') || '').trim();
+            const email = String(data.get('email') || '').trim().toLowerCase();
+            const phone = String(data.get('phone') || '').trim();
+            const role = String(data.get('role') || 'family');
+            const password = String(data.get('password') || '');
+            const confirm = String(data.get('confirm') || '');
+            if (!registerForm.checkValidity()) { registerForm.reportValidity(); return; }
+            if (password !== confirm) { setFormMessage(registerError, 'كلمتا المرور غير متطابقتين.'); return; }
+            if (password.length < 8 || !/\d/.test(password) || !/[A-Za-z\u0600-\u06FF]/.test(password)) { setFormMessage(registerError, 'استخدم 8 أحرف على الأقل تتضمن حرفًا ورقمًا.'); return; }
+            const users = getUsers();
+            if (users.some((user) => user.email === email)) { setFormMessage(registerError, 'يوجد حساب تجريبي بهذا البريد بالفعل.'); return; }
+            submit.disabled = true;
+            submit.textContent = 'جارٍ إنشاء الحساب...';
+            try {
+                const salt = bytesToHex(crypto.getRandomValues(new Uint8Array(16)));
+                const passwordHash = await derivePassword(password, salt);
+                const user = { id: makeId(), name, email, phone, role, salt, passwordHash, deviceCode: '', emergencyName: '', emergencyPhone: '', createdAt: new Date().toISOString() };
+                users.push(user);
+                saveUsers(users);
+                localStorage.setItem(GS_SESSION_KEY, user.id);
+                registerForm.reset();
+                passwordInput.dispatchEvent(new Event('input'));
+                closeAuth();
+                updateAccountButtons();
+                openDashboard();
+                showToast('تم إنشاء الحساب التجريبي بنجاح.');
+            } catch (error) {
+                setFormMessage(registerError, error.message || 'تعذر إنشاء الحساب.');
+            } finally {
+                submit.disabled = false;
+                submit.textContent = 'إنشاء الحساب التجريبي';
+            }
+        });
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            setFormMessage(loginError);
+            if (!loginForm.checkValidity()) { loginForm.reportValidity(); return; }
+            const submit = document.getElementById('login-submit');
+            const data = new FormData(loginForm);
+            const email = String(data.get('email') || '').trim().toLowerCase();
+            const password = String(data.get('password') || '');
+            const user = getUsers().find((item) => item.email === email);
+            submit.disabled = true;
+            submit.textContent = 'جارٍ التحقق...';
+            try {
+                if (!user || await derivePassword(password, user.salt) !== user.passwordHash) throw new Error('البريد أو كلمة المرور غير صحيحة.');
+                localStorage.setItem(GS_SESSION_KEY, user.id);
+                loginForm.reset();
+                closeAuth();
+                updateAccountButtons();
+                openDashboard();
+                showToast('تم تسجيل الدخول.');
+            } catch (error) {
+                setFormMessage(loginError, error.message || 'تعذر تسجيل الدخول.');
+            } finally {
+                submit.disabled = false;
+                submit.textContent = 'تسجيل الدخول';
+            }
+        });
+
+        function roleLabel(role) { return ({ family: 'فرد من العائلة', caregiver: 'مقدم رعاية', researcher: 'باحث أو مشرف' })[role] || role; }
+        function updateAccountButtons() {
+            const user = getCurrentUser();
+            [accountButton, mobileAccountButton].forEach((button) => {
+                if (!button) return;
+                button.textContent = user ? 'حسابي' : 'إنشاء حساب';
+                button.dataset.openAuth = user ? 'dashboard' : 'register';
+            });
+        }
+        function populateDashboard() {
+            const user = getCurrentUser();
+            if (!user) return false;
+            document.getElementById('dashboard-name').textContent = user.name;
+            document.getElementById('dashboard-meta').textContent = `${roleLabel(user.role)} • ${user.email} • ${user.phone}`;
+            document.getElementById('account-id').textContent = user.id;
+            document.getElementById('device-code').value = user.deviceCode || '';
+            document.getElementById('device-status').textContent = user.deviceCode ? `مربوط: ${user.deviceCode}` : 'غير مربوط';
+            document.getElementById('device-status').className = user.deviceCode ? 'font-extrabold text-green-700' : 'font-extrabold text-amber-700';
+            document.getElementById('emergency-name').value = user.emergencyName || '';
+            document.getElementById('emergency-phone').value = user.emergencyPhone || '';
+            return true;
+        }
+        function openDashboard() {
+            if (!populateDashboard()) { openAuth('login'); return; }
+            setModal(dashboardModal, true);
+        }
+        function closeDashboard() { setModal(dashboardModal, false); }
+        document.querySelectorAll('[data-close-dashboard]').forEach((button) => button.addEventListener('click', closeDashboard));
+
+        // إعادة توجيه زر الحساب بعد تسجيل الدخول.
+        [accountButton, mobileAccountButton].forEach((button) => button?.addEventListener('click', (event) => {
+            if (getCurrentUser()) { event.stopImmediatePropagation(); openDashboard(); }
+        }, true));
+
+        document.getElementById('logout-button').addEventListener('click', () => {
+            localStorage.removeItem(GS_SESSION_KEY);
+            closeDashboard();
+            updateAccountButtons();
+            showToast('تم تسجيل الخروج.');
+        });
+        document.getElementById('delete-account-button').addEventListener('click', () => {
+            const user = getCurrentUser();
+            if (!user || !confirm('سيتم حذف الحساب التجريبي وبياناته من هذا المتصفح. هل أنت متأكد؟')) return;
+            saveUsers(getUsers().filter((item) => item.id !== user.id));
+            localStorage.removeItem(GS_SESSION_KEY);
+            closeDashboard();
+            updateAccountButtons();
+            showToast('تم حذف الحساب التجريبي.');
+        });
+        document.getElementById('device-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const code = document.getElementById('device-code').value.trim().toUpperCase();
+            if (code.length < 6) { showToast('أدخل رمز جهاز من 6 أحرف أو أرقام على الأقل.', true); return; }
+            const users = getUsers();
+            const index = users.findIndex((item) => item.id === getSessionId());
+            if (index < 0) return;
+            users[index].deviceCode = code;
+            saveUsers(users);
+            populateDashboard();
+            showToast('تم حفظ رمز الجهاز التجريبي.');
+        });
+        document.getElementById('unlink-device').addEventListener('click', () => {
+            const users = getUsers();
+            const index = users.findIndex((item) => item.id === getSessionId());
+            if (index < 0) return;
+            users[index].deviceCode = '';
+            saveUsers(users);
+            populateDashboard();
+            showToast('تم إلغاء ربط الجهاز التجريبي.');
+        });
+        document.getElementById('emergency-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const users = getUsers();
+            const index = users.findIndex((item) => item.id === getSessionId());
+            if (index < 0) return;
+            users[index].emergencyName = document.getElementById('emergency-name').value.trim();
+            users[index].emergencyPhone = document.getElementById('emergency-phone').value.trim();
+            saveUsers(users);
+            showToast('تم حفظ جهة اتصال الطوارئ محليًا.');
+        });
+
+        updateAccountButtons();
     </script>
 
 </body>
