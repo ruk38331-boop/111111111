@@ -77,125 +77,194 @@
             </div>
         </div>
     </section>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuardianSense - نظام الحماية الذكي</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        .brand-gradient { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased py-10">
 
-    <!-- 9. قسم إنشاء الحساب -->
-    <section id="signup" class="py-24 bg-gray-50 border-t border-b border-gray-200">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
-                
-                <!-- اللوحة الجانبية -->
-                <div class="lg:col-span-5 brand-gradient text-white p-10 flex flex-col justify-between">
-                    <div>
-                        <span class="text-3xl">🛡️</span>
-                        <h3 class="text-3xl font-extrabold mt-4 mb-2">ابدأ رحلة الاطمئنان</h3>
-                        <p class="text-blue-100 text-sm">أنشئ حسابك لربط جهازك ومتابعة من تحب بكل سهولة وأمان.</p>
-                    </div>
-                    <div class="space-y-3 mt-10">
-                        <div class="flex items-center gap-2 text-sm text-blue-50">✅ تحقق آمن ومباشر</div>
-                        <div class="flex items-center gap-2 text-sm text-blue-50">✅ إعداد سريع للجهاز</div>
-                        <div class="flex items-center gap-2 text-sm text-blue-50">✅ تشفير تام للبيانات</div>
-                    </div>
-                    <div class="text-xs text-blue-200 mt-10">GuardianSense © 2026</div>
+    <section id="signup" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+            
+            <!-- اللوحة الجانبية -->
+            <div class="lg:col-span-5 brand-gradient text-white p-10 flex flex-col justify-between">
+                <div>
+                    <span class="text-3xl">🛡️</span>
+                    <h3 class="text-3xl font-extrabold mt-4 mb-2">ابدأ رحلة الاطمئنان</h3>
+                    <p class="text-blue-100 text-sm">تسجيل آمن ومحاكاة برمجية كاملة لنظام التحقق بدون خدمات خارجية.</p>
                 </div>
+            </div>
 
-                <!-- نموذج التسجيل -->
-                <div class="lg:col-span-7 p-8 sm:p-12 text-right">
-                    <h3 class="text-2xl font-extrabold text-gray-900 mb-6">إنشاء حساب جديد</h3>
+            <!-- نموذج التسجيل -->
+            <div class="lg:col-span-7 p-8 sm:p-12 text-right">
+                <h3 class="text-2xl font-extrabold text-gray-900 mb-6">إنشاء حساب جديد</h3>
+                
+                <form id="signup-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">الاسم الكامل</label>
+                        <input type="text" id="fullname" placeholder="أحمد محمد" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">البريد الإلكتروني</label>
+                        <input type="email" id="user-email" placeholder="example@gmail.com" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" dir="ltr">
+                    </div>
                     
-                    <form id="signup-form" class="space-y-4" onsubmit="verifyAndRegister(event)">
-                        <div class="grid grid-cols-2 gap-3 mb-4">
-                            <label class="cursor-pointer">
-                                <input type="radio" name="acc" class="peer sr-only" checked>
-                                <div class="text-center p-2.5 rounded-xl border-2 border-gray-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-700 font-bold text-xs">فرد عائلة</div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="acc" class="peer sr-only">
-                                <div class="text-center p-2.5 rounded-xl border-2 border-gray-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-700 font-bold text-xs">مقدم رعاية</div>
-                            </label>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1">الاسم الكامل</label>
-                            <input type="text" id="fullname" placeholder="أحمد محمد" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1">البريد الإلكتروني (Gmail)</label>
-                            <input type="email" id="user-email" placeholder="example@gmail.com" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" dir="ltr">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">رمز التحقق (OTP)</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="otp-input" placeholder="أدخل الرمز" maxlength="4" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 text-center font-bold tracking-widest" dir="ltr">
+                            <button type="button" id="btn-send-otp" class="bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold px-4 rounded-xl transition whitespace-nowrap border border-blue-200">
+                                توليد الرمز
+                            </button>
                         </div>
                         
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1">رمز التحقق (OTP)</label>
-                            <div class="flex gap-2">
-                                <input type="text" id="otp-input" placeholder="أدخل الرمز المكون من 4 أرقام" maxlength="4" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-center font-bold tracking-widest" dir="ltr">
-                                <button type="button" onclick="generateOtpOnScreen()" id="otp-btn" class="bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold px-4 rounded-xl transition whitespace-nowrap border border-blue-200">إرسال الرمز</button>
-                            </div>
-                            <!-- خانة ظهور الرمز بوضوح للمستخدم -->
-                            <div id="otp-display-box" class="hidden mt-2 p-3 bg-blue-50 border border-blue-200 rounded-xl text-center">
-                                <p class="text-xs text-blue-800 font-semibold">رمز التحقق الخاص بك للتجربة:</p>
-                                <span id="otp-code-text" class="text-lg font-black text-blue-600 tracking-widest"></span>
-                            </div>
+                        <!-- رسائل الخطأ أو التوجيه -->
+                        <p id="ui-feedback" class="hidden text-xs mt-1 font-bold"></p>
+                        
+                        <!-- صندوق عرض الرمز الوهمي (لأغراض الاختبار) -->
+                        <div id="simulated-otp-box" class="hidden mt-3 p-4 bg-indigo-50 border-2 border-indigo-200 rounded-xl text-center shadow-inner">
+                            <span class="text-xs text-indigo-800 font-bold block mb-1">محاكاة النظام (انسخ هذا الرمز للتجربة):</span>
+                            <span id="simulated-otp-text" class="text-2xl font-black text-indigo-600 tracking-[0.5em] font-mono block mt-1"></span>
                         </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label>
-                            <input type="password" id="password" placeholder="••••••••" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" dir="ltr">
-                        </div>
-
-                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition mt-2">إنشاء الحساب</button>
-                    </form>
-
-                    <!-- رسالة النجاح المرئية -->
-                    <div id="success-message" class="hidden mt-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-center font-bold text-sm">
-                        مرحباً بك في GuardianSense، تم تسجيل دخولك بنجاح! 🎉
                     </div>
-                </div>
 
+                    <button type="submit" id="btn-submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition mt-2">
+                        تسجيل الحساب
+                    </button>
+                </form>
+
+                <!-- رسالة النجاح -->
+                <div id="success-message" class="hidden mt-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-center font-bold text-sm">
+                    تم التحقق وإنشاء الحساب بنجاح! 🎉
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- سكربت التشغيل المرن -->
+    <!-- سكربت برمجي محلي بالكامل (Pure JS) -->
     <script>
-        let generatedOtp = "";
-
-        function generateOtpOnScreen() {
-            const email = document.getElementById('user-email').value;
-            const displayBox = document.getElementById('otp-display-box');
-            const codeText = document.getElementById('otp-code-text');
-            const btn = document.getElementById('otp-btn');
-
-            if (!email) {
-                alert("الرجاء إدخال البريد الإلكتروني أولاً!");
-                return;
-            }
-
-            // توليد رمز تحقق عشوائي من 4 أرقام
-            generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+        document.addEventListener('DOMContentLoaded', () => {
             
-            // عرض الرمز في المربع المخصص تحت الزر
-            codeText.textContent = generatedOtp;
-            displayBox.classList.remove('hidden');
-            
-            btn.textContent = "تم إرسال الرمز ✓";
-            btn.classList.add('bg-green-50', 'text-green-700', 'border-green-200');
-        }
+            // 1. تعريف عناصر واجهة المستخدم
+            const UI = {
+                form: document.getElementById('signup-form'),
+                emailInput: document.getElementById('user-email'),
+                otpInput: document.getElementById('otp-input'),
+                btnSendOtp: document.getElementById('btn-send-otp'),
+                btnSubmit: document.getElementById('btn-submit'),
+                feedbackMsg: document.getElementById('ui-feedback'),
+                simulatedOtpBox: document.getElementById('simulated-otp-box'),
+                simulatedOtpText: document.getElementById('simulated-otp-text'),
+                successMsg: document.getElementById('success-message')
+            };
 
-        function verifyAndRegister(event) {
-            event.preventDefault();
-            const userInputOtp = document.getElementById('otp-input').value;
+            // 2. إدارة حالة التطبيق
+            const State = {
+                generatedOtp: null,
+                isSending: false
+            };
 
-            if (generatedOtp === "") {
-                alert("الرجاء طلب رمز التحقق أولاً.");
-                return;
-            }
+            // 3. دالة مساعدة لعرض الرسائل
+            const showFeedback = (message, type) => {
+                UI.feedbackMsg.textContent = message;
+                UI.feedbackMsg.className = `text-xs mt-1 font-bold ${type === 'error' ? 'text-red-600' : 'text-green-600'}`;
+                UI.feedbackMsg.classList.remove('hidden');
+            };
 
-            if (userInputOtp !== generatedOtp) {
-                alert("رمز التحقق غير صحيح!");
-                return;
-            }
+            // 4. التحقق من صيغة الإيميل برمجياً
+            const isValidEmail = (email) => {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            };
 
-            const successBox = document.getElementById('success-message');
-            successBox.classList.remove('hidden');
-        }
+            // 5. محاكاة توليد الرمز (Pure Local Logic)
+            const handleGenerateOTP = async () => {
+                const email = UI.emailInput.value.trim();
+
+                if (!isValidEmail(email)) {
+                    showFeedback("الرجاء إدخال بريد إلكتروني صحيح أولاً!", "error");
+                    UI.simulatedOtpBox.classList.add('hidden');
+                    return;
+                }
+
+                // تغيير حالة الزر لمحاكاة الاتصال
+                State.isSending = true;
+                UI.btnSendOtp.disabled = true;
+                UI.btnSendOtp.textContent = "جاري التوليد...";
+                UI.btnSendOtp.classList.add('opacity-50', 'cursor-not-allowed');
+                UI.feedbackMsg.classList.add('hidden');
+                UI.simulatedOtpBox.classList.add('hidden');
+
+                // تأخير وهمي لمدة ثانية لمحاكاة معالجة البيانات
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // توليد الرمز محلياً (4 أرقام)
+                State.generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+                
+                // عرض الرمز على الشاشة للمختبر
+                UI.simulatedOtpText.textContent = State.generatedOtp;
+                UI.simulatedOtpBox.classList.remove('hidden');
+
+                // تحديث شكل الزر
+                UI.btnSendOtp.textContent = "تم التوليد ✓";
+                UI.btnSendOtp.classList.replace('text-blue-600', 'text-green-700');
+                UI.btnSendOtp.classList.replace('bg-blue-50', 'bg-green-50');
+                
+                State.isSending = false;
+                UI.btnSendOtp.disabled = false;
+                UI.btnSendOtp.classList.remove('opacity-50', 'cursor-not-allowed');
+            };
+
+            // 6. التحقق من الرمز عند تقديم النموذج
+            const handleFormSubmit = (event) => {
+                event.preventDefault(); 
+                
+                const userOtp = UI.otpInput.value.trim();
+
+                if (!State.generatedOtp) {
+                    showFeedback("الرجاء الضغط على 'توليد الرمز' أولاً.", "error");
+                    return;
+                }
+
+                if (userOtp !== State.generatedOtp) {
+                    showFeedback("رمز التحقق غير صحيح، حاول مرة أخرى.", "error");
+                    return;
+                }
+
+                // في حال نجاح التحقق
+                UI.feedbackMsg.classList.add('hidden');
+                UI.simulatedOtpBox.classList.add('hidden');
+                UI.successMsg.classList.remove('hidden');
+                
+                // تصفير النموذج والرمز
+                UI.form.reset(); 
+                State.generatedOtp = null; 
+                
+                // إعادة الزر لحالته الأصلية
+                UI.btnSendOtp.textContent = "توليد الرمز";
+                UI.btnSendOtp.classList.replace('text-green-700', 'text-blue-600');
+                UI.btnSendOtp.classList.replace('bg-green-50', 'bg-blue-50');
+            };
+
+            // 7. ربط الأحداث
+            UI.btnSendOtp.addEventListener('click', handleGenerateOTP);
+            UI.form.addEventListener('submit', handleFormSubmit);
+        });
+    </script>
+</body>
+</html>}
     </script>
 </body>
 </html>
