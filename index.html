@@ -50,7 +50,7 @@
         .modal-content {
             background: white;
             border-radius: 1.5rem;
-            max-width: 600px;
+            max-width: 500px;
             width: 90%;
             padding: 2rem;
             max-height: 80vh;
@@ -65,6 +65,26 @@
             font-size: 1.5rem;
             color: #6b7280;
         }
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #d1d5db;
+        }
+        .step-dot.active {
+            background-color: #3b82f6;
+            width: 30px;
+            border-radius: 20px;
+        }
+        .hidden-step {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-white text-gray-800 antialiased">
@@ -77,7 +97,7 @@
                     <a href="#home" class="font-bold text-2xl text-blue-600 tracking-tight">GuardianSense</a>
                 </div>
                 <!-- روابط القائمة -->
-                <div class="flex overflow-x-auto w-full lg:w-auto space-x-3 space-x-reverse text-sm font-semibold pb-2 lg:pb-0 scroll-smooth" style="scrollbar-width: none;">
+                <div class="flex overflow-x-auto w-full lg:w-auto space-x-3 space-x-reverse text-sm font-semibold pb-2 lg:pb-0 scroll-smooth items-center" style="scrollbar-width: none;">
                     <a href="#home" class="whitespace-nowrap text-gray-700 hover:text-blue-600 px-2 py-1 transition">الرئيسية</a>
                     <a href="#why" class="whitespace-nowrap text-gray-700 hover:text-blue-600 px-2 py-1 transition">لماذا النظام</a>
                     <a href="#problem-solution" class="whitespace-nowrap text-gray-700 hover:text-blue-600 px-2 py-1 transition">المشكلة والحل</a>
@@ -88,11 +108,16 @@
                     <a href="#about" class="whitespace-nowrap text-gray-700 hover:text-blue-600 px-2 py-1 transition">من نحن</a>
                     <a href="#faq" class="whitespace-nowrap text-gray-700 hover:text-blue-600 px-2 py-1 transition">الأسئلة الشائعة</a>
                     <a href="#contact" class="whitespace-nowrap text-gray-700 hover:text-blue-600 px-2 py-1 transition">اتصل بنا</a>
+                    <!-- زر إنشاء حساب جديد -->
+                    <button onclick="openRegisterModal()" class="whitespace-nowrap bg-blue-600 text-white px-5 py-2 rounded-full font-bold hover:bg-blue-700 transition shadow-sm mr-2">
+                        إنشاء حساب
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
+    <!-- ==================== باقي الأقسام (كما هي دون تغيير) ==================== -->
     <!-- 1. Hero Section -->
     <section id="home" class="hero-bg py-20 lg:py-32 overflow-hidden border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center">
@@ -153,7 +178,7 @@
         </div>
     </section>
 
-    <!-- شريط إحصائيات سريع (جديد) -->
+    <!-- شريط إحصائيات سريع -->
     <section class="py-16 bg-blue-50">
         <div class="max-w-5xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -374,16 +399,12 @@
                     يعتمد النظام على دمج متقدم للمستشعرات والرادارات لتقييم الحالة واتخاذ القرار بطريقة ذكية دون المساومة على الخصوصية.
                 </p>
             </div>
-
-            <!-- لماذا لا نستخدم كاميرا؟ -->
             <div class="bg-red-950/40 border border-red-500/30 p-10 rounded-3xl mb-20">
                 <div class="text-4xl mb-4">🚫📷</div>
                 <h3 class="text-3xl font-extrabold text-white mb-4">لماذا لا نستخدم كاميرا؟</h3>
                 <p class="text-xl text-red-400 font-bold mb-4">لأن الخصوصية أهم.</p>
                 <p class="text-gray-300 mb-4">GuardianSense يعتمد على الرادار، الحركة، الروتين، والصوت... وليس على تصوير المستخدم داخل منزله.</p>
             </div>
-
-            <!-- مخطط عمل التقنيات معاً -->
             <div class="text-center mb-16">
                 <h3 class="text-3xl font-bold mb-12 text-blue-300">كيف تعمل جميع التقنيات معًا؟</h3>
                 <div class="max-w-md mx-auto space-y-4 font-mono">
@@ -415,8 +436,6 @@
                     إطار ذكي قابل للتفسير لتقييم الحاجة الفعلية للمساعدة لدى كبار السن داخل الحمام باستخدام دمج الأدلة متعددة المستشعرات.
                 </p>
             </div>
-
-            <!-- فلسفة النظام -->
             <div class="bg-white p-10 rounded-3xl shadow-sm border border-gray-200 mb-16 text-center">
                 <h3 class="text-2xl font-bold mb-6 text-gray-900">فلسفة النظام</h3>
                 <div class="grid md:grid-cols-2 gap-8 items-center">
@@ -430,7 +449,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- مراحل القرار الـ 8 -->
             <h3 class="text-3xl font-extrabold text-center text-gray-900 mb-12">مراحل اتخاذ القرار الـ 8</h3>
             <div class="relative timeline-line mb-20">
@@ -443,7 +461,6 @@
                 <div class="relative z-10 flex items-center mb-8"><div class="bg-white p-6 rounded-2xl shadow-sm border w-full md:w-5/6 mr-auto text-right"><h4 class="font-bold text-orange-500 text-lg">7. إعادة التقييم</h4><p class="text-sm text-gray-600">التأكد من أن المؤشرات ليست ناتجة عن خطأ مؤقت.</p></div></div>
                 <div class="relative z-10 flex items-center"><div class="bg-red-50 p-6 rounded-2xl shadow-sm border border-red-200 w-full md:w-5/6 ml-auto text-right"><h4 class="font-bold text-red-700 text-lg">8. إرسال التنبيه</h4><p class="text-sm text-red-600">إرسال إشعار فورى لأفراد العائلة مع تفاصيل الحالة وأسباب التنبيه.</p></div></div>
             </div>
-
             <!-- تفسير القرار (Explainable AI) -->
             <div class="bg-gray-900 text-white p-8 rounded-3xl shadow-xl mb-16">
                 <h3 class="text-2xl font-bold mb-4">تفسير القرار (Explainable Decision)</h3>
@@ -455,7 +472,6 @@
                     <p class="text-gray-300">• عدم الاستجابة للنداء الصوتي.</p>
                 </div>
             </div>
-
             <!-- الملاحظة الهامة (Disclaimer) -->
             <div class="bg-white p-6 rounded-2xl border-l-4 border-blue-500 shadow-sm text-right">
                 <p class="text-sm text-gray-700 leading-relaxed">
@@ -465,7 +481,7 @@
         </div>
     </section>
 
-    <!-- قسم "من نحن" (جديد) -->
+    <!-- قسم "من نحن" -->
     <section id="about" class="py-24 bg-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -505,7 +521,7 @@
         </div>
     </section>
 
-    <!-- خارطة الطريق (جديدة) -->
+    <!-- خارطة الطريق -->
     <section class="py-24 bg-gray-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -538,7 +554,7 @@
         </div>
     </section>
 
-    <!-- خطوات التركيب والاستخدام (جديدة) -->
+    <!-- خطوات التركيب والاستخدام -->
     <section class="py-24 bg-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -567,7 +583,7 @@
         </div>
     </section>
 
-    <!-- الأسئلة الشائعة (جديدة) -->
+    <!-- الأسئلة الشائعة -->
     <section id="faq" class="py-24 bg-gray-50">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -622,15 +638,12 @@
                 <h3 class="text-4xl font-extrabold text-gray-900">نحن هنا للإجابة على استفساراتكم</h3>
                 <p class="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">لدى مشروعك استفسار أو ترغب في معرفة المزيد عن نظام GuardianSense؟ يسعدنا تواصلك معنا.</p>
             </div>
-
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <!-- معلومات التواصل -->
                 <div class="bg-gray-50 p-10 rounded-3xl border border-gray-100 space-y-8">
                     <h4 class="text-2xl font-bold text-gray-900">معلومات الاتصال</h4>
                     <p class="text-gray-600 leading-relaxed">
                         نعمل باستمرار على تطوير حلول ذكية لسلامة كبار السن. لا تتردد في مراسلتنا لأي مقترح أو استفسار أكاديمي أو تقني.
                     </p>
-                    
                     <div class="space-y-6">
                         <div class="flex items-center space-x-4 space-x-reverse">
                             <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-xl shrink-0">📧</div>
@@ -639,7 +652,6 @@
                                 <div class="text-gray-800 font-bold">jory@guardiansense.com</div>
                             </div>
                         </div>
-
                         <div class="flex items-center space-x-4 space-x-reverse">
                             <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-xl shrink-0">📍</div>
                             <div>
@@ -649,29 +661,21 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- نموذج إرسال الرسائل -->
                 <div class="bg-gray-50 p-10 rounded-3xl border border-gray-100 shadow-sm">
                     <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
-                        
-                        <!-- مفتاح الوصول الخاص بك -->
                         <input type="hidden" name="access_key" value="b4155ba3-11de-447a-8841-cd5a90a415b6">
-
                         <div>
                             <label class="block text-gray-700 font-semibold mb-2">الاسم الكريم</label>
                             <input type="text" name="name" placeholder="أدخل اسمك الكامل" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:outline-none transition">
                         </div>
-
                         <div>
                             <label class="block text-gray-700 font-semibold mb-2">البريد الإلكتروني</label>
                             <input type="email" name="email" placeholder="name@example.com" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:outline-none transition">
                         </div>
-
                         <div>
                             <label class="block text-gray-700 font-semibold mb-2">الرسالة</label>
                             <textarea name="message" rows="4" placeholder="اكتب رسالتك هنا..." required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:outline-none transition resize-none"></textarea>
                         </div>
-
                         <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 hover:shadow-xl transition duration-300">
                             إرسال الرسالة
                         </button>
@@ -705,7 +709,9 @@
         </div>
     </footer>
 
-    <!-- نافذة سياسة الخصوصية (مودال) -->
+    <!-- ==================== النوافذ المنبثقة (Modals) ==================== -->
+
+    <!-- نافذة سياسة الخصوصية -->
     <div id="privacy-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('privacy-modal')">&times;</span>
@@ -719,7 +725,7 @@
         </div>
     </div>
 
-    <!-- نافذة شروط الاستخدام (مودال) -->
+    <!-- نافذة شروط الاستخدام -->
     <div id="terms-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('terms-modal')">&times;</span>
@@ -733,6 +739,67 @@
         </div>
     </div>
 
+    <!-- نافذة إنشاء حساب مع رمز التحقق -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeRegisterModal()">&times;</span>
+            <!-- مؤشر الخطوات -->
+            <div class="step-indicator" id="step-indicator">
+                <div class="step-dot active" id="dot1"></div>
+                <div class="step-dot" id="dot2"></div>
+            </div>
+
+            <!-- الخطوة الأولى: بيانات الحساب -->
+            <div id="step1" class="step-content">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">إنشاء حساب جديد</h2>
+                <form id="register-form-step1" onsubmit="return false;" class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">الاسم الكامل</label>
+                        <input type="text" id="reg-name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">البريد الإلكتروني</label>
+                        <input type="email" id="reg-email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">كلمة المرور</label>
+                        <input type="password" id="reg-password" required minlength="6" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none">
+                    </div>
+                    <button type="button" onclick="goToStep2()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">
+                        متابعة
+                    </button>
+                </form>
+            </div>
+
+            <!-- الخطوة الثانية: رمز التحقق -->
+            <div id="step2" class="step-content hidden-step">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">التحقق من البريد الإلكتروني</h2>
+                <p class="text-gray-600 mb-4 text-center">تم إرسال رمز تحقق إلى بريدك الإلكتروني <span id="email-display" class="font-bold text-blue-600"></span></p>
+                <p class="text-xs text-gray-500 mb-6 text-center">(لأغراض العرض، الرمز هو <strong>123456</strong>)</p>
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2">رمز التحقق</label>
+                    <input type="text" id="verification-code" placeholder="أدخل الرمز" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-center tracking-widest text-2xl" maxlength="6">
+                </div>
+                <button onclick="verifyCode()" class="w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition mb-4">
+                    تأكيد التحقق
+                </button>
+                <p id="code-error" class="text-red-500 text-sm text-center hidden">الرمز غير صحيح، حاول مرة أخرى.</p>
+                <!-- إعادة إرسال الرمز (محاكاة) -->
+                <button onclick="alert('تم إعادة إرسال رمز التحقق (123456)')" class="text-blue-600 text-sm underline mx-auto block">إعادة إرسال الرمز</button>
+            </div>
+
+            <!-- الخطوة الثالثة: نجاح التسجيل -->
+            <div id="step3" class="step-content hidden-step text-center">
+                <div class="text-5xl mb-4">✅</div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">تم إنشاء الحساب بنجاح!</h2>
+                <p class="text-gray-600 mb-6">يمكنك الآن تسجيل الدخول إلى تطبيق GuardianSense ومتابعة أجهزتك.</p>
+                <button onclick="closeRegisterModal()" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-blue-700 transition">
+                    حسناً
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- زر العودة إلى الأعلى -->
     <button onclick="window.scrollTo({top:0,behavior:'smooth'})" 
             class="fixed bottom-6 right-6 bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg hover:bg-blue-700 transition z-40 flex items-center justify-center text-xl">
@@ -740,16 +807,75 @@
     </button>
 
     <script>
+        // دوال النوافذ العامة
         function openModal(id) {
             document.getElementById(id).classList.add('active');
         }
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
         }
-        // إغلاق النافذة عند النقر خارجها
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.classList.remove('active');
+            }
+        }
+
+        // دوال نافذة التسجيل
+        function openRegisterModal() {
+            document.getElementById('register-modal').classList.add('active');
+            // إعادة تعيين النموذج إلى الخطوة الأولى
+            showStep(1);
+            document.getElementById('reg-name').value = '';
+            document.getElementById('reg-email').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('verification-code').value = '';
+            document.getElementById('code-error').classList.add('hidden');
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('register-modal').classList.remove('active');
+        }
+
+        function showStep(stepNumber) {
+            document.getElementById('step1').classList.add('hidden-step');
+            document.getElementById('step2').classList.add('hidden-step');
+            document.getElementById('step3').classList.add('hidden-step');
+            document.getElementById('dot1').classList.remove('active');
+            document.getElementById('dot2').classList.remove('active');
+
+            if (stepNumber === 1) {
+                document.getElementById('step1').classList.remove('hidden-step');
+                document.getElementById('dot1').classList.add('active');
+            } else if (stepNumber === 2) {
+                document.getElementById('step2').classList.remove('hidden-step');
+                document.getElementById('dot1').classList.add('active');
+                document.getElementById('dot2').classList.add('active');
+            } else if (stepNumber === 3) {
+                document.getElementById('step3').classList.remove('hidden-step');
+                document.getElementById('dot1').classList.add('active');
+                document.getElementById('dot2').classList.add('active');
+            }
+        }
+
+        function goToStep2() {
+            const email = document.getElementById('reg-email').value.trim();
+            if (!email) {
+                alert('يرجى إدخال البريد الإلكتروني');
+                return;
+            }
+            document.getElementById('email-display').textContent = email;
+            showStep(2);
+            // محاكاة إرسال الرمز
+        }
+
+        function verifyCode() {
+            const code = document.getElementById('verification-code').value.trim();
+            if (code === '123456') {
+                // نجاح
+                document.getElementById('code-error').classList.add('hidden');
+                showStep(3);
+            } else {
+                document.getElementById('code-error').classList.remove('hidden');
             }
         }
     </script>
