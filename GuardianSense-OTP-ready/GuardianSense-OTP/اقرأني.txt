@@ -1,0 +1,26 @@
+GuardianSense OTP — خطوات التشغيل
+
+1) انسخ صور موقعك إلى مجلد public:
+   logo.png
+   device.jpg
+   app.jpg
+
+2) افتح المجلد GuardianSense-OTP كاملًا في VS Code.
+
+3) ثبّت Node.js من الموقع الرسمي إذا لم يكن مثبتًا.
+
+4) من Terminal داخل VS Code نفّذ:
+   npm install -g firebase-tools
+   firebase login
+   firebase deploy
+
+5) بعد اكتمال النشر سيظهر رابط شبيه:
+   https://guardiansense-9deec.web.app
+
+6) افتح الرابط وجرّب:
+   إنشاء حساب > أدخل رقم سعودي > إرسال رمز التحقق.
+
+مهم:
+- تأكد من السماح للسعودية في Authentication > Settings > SMS region policy.
+- لا تختبر OTP الحقيقي بفتح index.html مباشرة أو عبر file://.
+- الحساب في هذا الإصدار ما زال محفوظًا محليًا داخل المتصفح؛ OTP وحده أصبح حقيقيًا.
