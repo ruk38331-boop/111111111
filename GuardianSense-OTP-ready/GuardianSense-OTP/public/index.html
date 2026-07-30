@@ -924,13 +924,27 @@
             <button type="button" class="modal-close" data-close-modal aria-label="إغلاق">×</button>
             <div class="p-6 sm:p-9">
                 <div class="text-center mb-6">
-                    <span class="account-chip mb-3">نسخة عرض محلية</span>
+                    <span class="account-chip mb-3">تسجيل Google أو حساب محلي</span>
                     <h2 id="auth-title" class="text-3xl font-extrabold text-gray-900">حساب GuardianSense</h2>
-                    <p class="text-gray-500 mt-2 text-sm">لا تستخدم كلمة مرور تستعملها في حساباتك الحقيقية.</p>
+                    <p class="text-gray-500 mt-2 text-sm">تسجيل Google مجاني، أو يمكنك استخدام الحساب المحلي التجريبي.</p>
                 </div>
                 <div class="grid grid-cols-2 border-b border-gray-200 mb-7">
                     <button id="register-tab" type="button" class="auth-tab active py-3 font-extrabold" data-auth-tab="register">إنشاء حساب</button>
                     <button id="login-tab" type="button" class="auth-tab py-3 font-extrabold" data-auth-tab="login">تسجيل الدخول</button>
+                </div>
+
+                <div class="space-y-3 mb-6">
+                    <button id="google-signin-button" type="button" class="w-full flex items-center justify-center gap-3 bg-white text-gray-800 border-2 border-gray-200 py-3.5 rounded-xl font-extrabold hover:bg-gray-50 hover:border-blue-300 disabled:cursor-not-allowed disabled:opacity-60">
+                        <svg width="21" height="21" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill="#4285F4" d="M21.6 12.23c0-.72-.06-1.41-.18-2.07H12v3.92h5.38a4.6 4.6 0 0 1-2 3.02v2.54h3.24c1.9-1.75 2.98-4.33 2.98-7.41Z"/>
+                            <path fill="#34A853" d="M12 22c2.7 0 4.97-.9 6.63-2.36l-3.24-2.54c-.9.6-2.05.96-3.39.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.62A10 10 0 0 0 12 22Z"/>
+                            <path fill="#FBBC05" d="M6.39 13.93A6.02 6.02 0 0 1 6.07 12c0-.67.12-1.32.32-1.93V7.45H3.04A10 10 0 0 0 2 12c0 1.61.39 3.14 1.04 4.55l3.35-2.62Z"/>
+                            <path fill="#EA4335" d="M12 5.94c1.47 0 2.79.51 3.83 1.5l2.87-2.87A9.65 9.65 0 0 0 12 2a10 10 0 0 0-8.96 5.45l3.35 2.62C7.18 7.7 9.39 5.94 12 5.94Z"/>
+                        </svg>
+                        <span>المتابعة باستخدام Google</span>
+                    </button>
+                    <div id="google-auth-message" class="form-status" role="alert" aria-live="polite"></div>
+                    <div class="flex items-center gap-3 text-xs text-gray-400"><span class="h-px flex-1 bg-gray-200"></span><span>أو استخدم البيانات المحلية</span><span class="h-px flex-1 bg-gray-200"></span></div>
                 </div>
 
                 <form id="register-form" class="auth-view active space-y-4" novalidate>
@@ -993,7 +1007,7 @@
             <div class="p-6 sm:p-9">
                 <div class="flex flex-col sm:flex-row sm:justify-between gap-4 mb-6">
                     <div>
-                        <span class="account-chip mb-3">الحساب التجريبي المحلي</span>
+                        <span id="dashboard-account-chip" class="account-chip mb-3">الحساب التجريبي المحلي</span>
                         <h2 id="dashboard-title" class="text-3xl font-extrabold text-gray-900">مرحبًا، <span id="dashboard-name">—</span></h2>
                         <p id="dashboard-meta" class="text-gray-500 mt-2">—</p>
                     </div>
@@ -1010,7 +1024,7 @@
                 <section class="dashboard-view active" data-dashboard-view="overview">
                     <div class="grid md:grid-cols-4 gap-4 mb-6">
                         <div class="dashboard-card"><p class="text-sm text-gray-500 mb-2">حالة الحساب</p><p class="font-extrabold text-green-700">نشط محليًا</p></div>
-                        <div class="dashboard-card"><p class="text-sm text-gray-500 mb-2">البريد</p><p class="font-extrabold text-amber-700">غير موثّق تجريبيًا</p></div>
+                        <div class="dashboard-card"><p class="text-sm text-gray-500 mb-2">البريد</p><p id="email-verification-status" class="font-extrabold text-amber-700">غير موثّق تجريبيًا</p></div>
                         <div class="dashboard-card"><p class="text-sm text-gray-500 mb-2">حالة الجهاز</p><p id="device-status" class="font-extrabold text-amber-700">غير مربوط</p></div>
                         <div class="dashboard-card"><p class="text-sm text-gray-500 mb-2">آخر مزامنة</p><p id="last-sync" class="font-extrabold text-gray-700">لا توجد</p></div>
                     </div>
@@ -1063,7 +1077,7 @@
                         </div>
                         <div class="grid sm:grid-cols-2 gap-4">
                             <div><label for="profile-email" class="block font-bold mb-2">البريد الإلكتروني</label><input id="profile-email" type="email" required maxlength="120" class="w-full px-4 py-3 rounded-xl border border-gray-300"></div>
-                            <div><label for="profile-phone" class="block font-bold mb-2">رقم الجوال</label><input id="profile-phone" type="tel" required minlength="8" maxlength="18" class="w-full px-4 py-3 rounded-xl border border-gray-300"></div>
+                            <div><label for="profile-phone" class="block font-bold mb-2">رقم الجوال</label><input id="profile-phone" type="tel" maxlength="18" class="w-full px-4 py-3 rounded-xl border border-gray-300" placeholder="اختياري لحساب Google"></div>
                         </div>
                         <button type="submit" class="bg-blue-600 text-white px-7 py-3 rounded-xl font-extrabold">حفظ التعديلات</button>
                     </form>
@@ -1078,6 +1092,11 @@
                             <label class="flex justify-between gap-4 items-center p-3 bg-white rounded-xl border"><span><strong>الرسائل النصية</strong><small class="block text-gray-500">تحتاج مزود SMS في النسخة الحقيقية</small></span><input id="notify-sms" type="checkbox" class="w-5 h-5 accent-blue-600"></label>
                             <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl font-extrabold">حفظ التفضيلات</button>
                         </form>
+                        <div id="google-security-note" class="dashboard-card hidden">
+                            <div class="text-3xl mb-3">🔐</div>
+                            <h3 class="text-xl font-extrabold mb-2">الأمان عبر Google</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed">هذا الحساب يدخل باستخدام Google، لذلك تتم إدارة كلمة المرور ووسائل الحماية من حساب Google نفسه.</p>
+                        </div>
                         <form id="password-form" class="dashboard-card space-y-4">
                             <div><h3 class="text-xl font-extrabold">تغيير كلمة المرور</h3><p class="text-sm text-gray-600">أدخل كلمة المرور الحالية ثم الجديدة.</p></div>
                             <input id="current-password" type="password" autocomplete="current-password" required class="w-full px-4 py-3 rounded-xl border border-gray-300" placeholder="كلمة المرور الحالية">
@@ -1312,6 +1331,57 @@
                 user.activity = user.activity.slice(0, 30);
             });
         }
+
+        window.handleGuardianGoogleSignIn = async (firebaseUser) => {
+            const email = String(firebaseUser?.email || '').trim().toLowerCase();
+            if (!email) throw new Error('لم يُرجع Google بريدًا إلكترونيًا للحساب.');
+
+            const users = getUsers();
+            const now = new Date().toISOString();
+            let user = users.find((item) => item.firebaseUid === firebaseUser.uid || item.email === email);
+
+            if (user) {
+                user.firebaseUid = firebaseUser.uid;
+                user.authProvider = 'google';
+                user.emailVerified = Boolean(firebaseUser.emailVerified);
+                user.photoURL = firebaseUser.photoURL || user.photoURL || '';
+                user.name = firebaseUser.displayName || user.name || email.split('@')[0];
+                user.email = email;
+                user.phone = firebaseUser.phoneNumber || user.phone || '';
+                user.activity = Array.isArray(user.activity) ? user.activity : [];
+                user.activity.unshift({ id: makeId(), message: 'تم تسجيل الدخول باستخدام Google.', type: 'success', at: now });
+                user.activity = user.activity.slice(0, 30);
+            } else {
+                user = {
+                    id: makeId(),
+                    firebaseUid: firebaseUser.uid,
+                    authProvider: 'google',
+                    emailVerified: Boolean(firebaseUser.emailVerified),
+                    photoURL: firebaseUser.photoURL || '',
+                    name: firebaseUser.displayName || email.split('@')[0],
+                    email,
+                    phone: firebaseUser.phoneNumber || '',
+                    role: 'family',
+                    salt: '',
+                    passwordHash: '',
+                    deviceCode: '',
+                    emergencyName: '',
+                    emergencyPhone: '',
+                    createdAt: now,
+                    notifications: { push: true, email: true, sms: false },
+                    diagnostics: null,
+                    activity: [{ id: makeId(), message: 'تم إنشاء الحساب وتسجيل الدخول باستخدام Google.', type: 'success', at: now }]
+                };
+                users.push(user);
+            }
+
+            saveUsers(users);
+            localStorage.setItem(GS_SESSION_KEY, user.id);
+            closeAuth();
+            updateAccountButtons();
+            openDashboard();
+            showToast('تم تسجيل الدخول باستخدام Google.');
+        };
         function renderActivity(user) {
             const list = document.getElementById('activity-list');
             const items = Array.isArray(user.activity) ? user.activity : [];
@@ -1454,7 +1524,15 @@
             const notifications = user.notifications || { push: true, email: true, sms: false };
             const diagnostics = user.diagnostics || {};
             document.getElementById('dashboard-name').textContent = user.name;
-            document.getElementById('dashboard-meta').textContent = `${roleLabel(user.role)} • ${user.email} • ${user.phone}`;
+            const phoneLabel = user.phone || 'بدون رقم جوال';
+            document.getElementById('dashboard-meta').textContent = `${roleLabel(user.role)} • ${user.email} • ${phoneLabel}`;
+            const isGoogleAccount = user.authProvider === 'google';
+            document.getElementById('dashboard-account-chip').textContent = isGoogleAccount ? 'حساب موثّق عبر Google' : 'الحساب التجريبي المحلي';
+            const emailStatus = document.getElementById('email-verification-status');
+            emailStatus.textContent = isGoogleAccount && user.emailVerified ? 'موثّق عبر Google ✓' : 'غير موثّق تجريبيًا';
+            emailStatus.className = isGoogleAccount && user.emailVerified ? 'font-extrabold text-green-700' : 'font-extrabold text-amber-700';
+            document.getElementById('password-form').classList.toggle('hidden', isGoogleAccount && !user.passwordHash);
+            document.getElementById('google-security-note').classList.toggle('hidden', !(isGoogleAccount && !user.passwordHash));
             document.getElementById('device-code').value = user.deviceCode || '';
             document.getElementById('device-status').textContent = user.deviceCode ? `مربوط: ${user.deviceCode}` : 'غير مربوط';
             document.getElementById('device-status').className = user.deviceCode ? 'font-extrabold text-green-700' : 'font-extrabold text-amber-700';
@@ -1486,9 +1564,10 @@
             if (getCurrentUser()) { event.stopImmediatePropagation(); openDashboard(); }
         }, true));
 
-        document.getElementById('logout-button').addEventListener('click', () => {
+        document.getElementById('logout-button').addEventListener('click', async () => {
             addActivity('تم تسجيل الخروج من الحساب.', 'info');
             localStorage.removeItem(GS_SESSION_KEY);
+            try { await window.signOutGuardianFirebase?.(); } catch (error) { console.warn('Firebase sign-out:', error); }
             closeDashboard();
             updateAccountButtons();
             showToast('تم تسجيل الخروج.');
@@ -1531,6 +1610,7 @@
             const role = document.getElementById('profile-role').value;
             const email = document.getElementById('profile-email').value.trim().toLowerCase();
             const phone = document.getElementById('profile-phone').value.trim();
+            if (phone && !/^[+\d\s-]{8,18}$/.test(phone)) { showToast('أدخل رقم جوال صحيحًا أو اتركه فارغًا.', true); return; }
             const duplicate = getUsers().some((item) => item.email === email && item.id !== getSessionId());
             if (duplicate) { showToast('هذا البريد مستخدم في حساب تجريبي آخر.', true); return; }
             updateCurrentUser((user) => { user.name = name; user.role = role; user.email = email; user.phone = phone; });
@@ -1560,6 +1640,7 @@
             const confirmNext = document.getElementById('new-password-confirm').value;
             const user = getCurrentUser();
             if (!user) return;
+            if (!user.passwordHash || !user.salt) { showToast('كلمة مرور هذا الحساب تُدار من خلال Google.', true); return; }
             if (next !== confirmNext) { showToast('كلمتا المرور الجديدتان غير متطابقتين.', true); return; }
             if (next.length < 8 || !/\d/.test(next) || !/[A-Za-z\u0600-\u06FF]/.test(next)) { showToast('كلمة المرور الجديدة يجب أن تتضمن 8 أحرف وحرفًا ورقمًا.', true); return; }
             try {
@@ -1647,6 +1728,7 @@
             if (confirmation !== 'حذف') { showToast('لم يتم حذف الحساب.', true); return; }
             saveUsers(getUsers().filter((item) => item.id !== user.id));
             localStorage.removeItem(GS_SESSION_KEY);
+            window.signOutGuardianFirebase?.().catch((error) => console.warn('Firebase sign-out:', error));
             closeDashboard();
             updateAccountButtons();
             showToast('تم حذف الحساب التجريبي وبياناته.');
@@ -1661,7 +1743,7 @@
 
         updateAccountButtons();
     </script>
-   <script type="module" src="firebase-auth.js?v=4"></script>
+    <script type="module" src="firebase-auth.js?v=google-1"></script>
 
 </body>
 </html>
